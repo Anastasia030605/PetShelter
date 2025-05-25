@@ -86,18 +86,41 @@ namespace Model.Core
     {
         public void Add(Pet pet)
         {
-            throw new NotImplementedException();
+            if (pet == null || Pets == null) return;
 
+            var newPets = new Pet[Pets.Length + 1];
+            Array.Copy(Pets, newPets, Pets.Length);
+            newPets[newPets.Length] = pet;
+            Pets = newPets;
         }
 
         public void Add(Pet[] pets)
         {
-            throw new NotImplementedException();
+            if(pets == null || Pets == null) return;
+
+            var newPets = new Pet[Pets.Length + pets.Length];
+            Array.Copy(Pets, newPets, Pets.Length);
+            Array.Copy(pets, 0, newPets, Pets.Length, newPets.Length);
+            Pets = newPets;
         }
 
         public void Remove(Pet pet)
         {
             throw new NotImplementedException();
+            int place = -1;
+            for(int k = 0; k < Pets.Length; k++)
+            {
+                if (Pets[k].Equals(pet))
+                {
+                    place = k;
+                    break;
+                }
+            }
+            if (place == -1) return;
+            var newPets = new Pet[Pets.Length - 1];
+            Array.Copy(Pets, newPets, place);
+            Array.Copy(Pets, place + 1, newPets, place, newPets.Length - place);
+            Pets = newPets;
         }
     }
 }
