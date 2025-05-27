@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,21 +10,51 @@ using System.Xml.Serialization;
 
 namespace Model.Core
 {
-    internal class XmlSerializer : Serializer
+    internal class XMLSerializer : Serializer
     {
         protected override string Extension => throw new NotImplementedException();
 
         public override void Serialize<T>(T obj, string fileName)
         {
+            if (String.IsNullOrEmpty(fileName)) return;
+            SelectFile(fileName);
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(ShelterDTO));
-            //Ошибка(активно) CS1729  "XmlSerializer" не содержит конструктор, который принимает аргументы 1
-            //а ничё тот факт что я так в 9 лабе делала ? как ошибку исправить ...
-
+            using (FileStream fs = new FileStream(FilePath, FileMode.OpenOrCreate))
+            {
+                xmlSerializer.Serialize(fs, new ShelterDTO(obj));
+            }
         }
 
         public override T Deserialize<T>(string fileName)
         {
             throw new NotImplementedException();
+            if (String.IsNullOrEmpty(fileName)) return null;
+
+            SelectFile(fileName);
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(ShelterDTO));
+            ShelterDTO obj;
+            using (FileStream fs = new FileStream(FilePath, FileMode.OpenOrCreate))
+            {
+                obj = xmlSerializer.Deserialize(fs) as ShelterDTO;
+            }
+            if (obj == null) return null;
+
+            T shelter = (T)new Shelter(obj.Name, obj.Capacity, obj.HasOpenArea);
+            foreach (var petDTO in obj.Pets)
+            {
+                Pet pet;
+                switch (petDTO.PetType)
+                {
+                    //case typeof(Cat):
+                    //    pet = new Cat(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
+                    //    break;
+                    //case 
+                    default:
+                        continue;
+                        break;
+                }
+                
+            }
         }
 
         private class ShelterDTO
@@ -49,7 +80,7 @@ namespace Model.Core
         }
         private class PetDTO
         {
-            public Type PetType { get; set; }
+            public System.Type PetType { get; set; }
             public string Name { get; set; }
             public int Age { get; set; }
             public int Weigth { get; set; }
