@@ -58,6 +58,8 @@ namespace Model.Core
 
         public Pet[] Filter(Type type, bool hasPhobia) // мне не нравится, но мне лень думать сейчас
         {
+            if (!HasOpenArea) return null; //new Pet[0] ?
+
             var sameType = Filter(type);
             var filtered = new Pet[HasPhobiaCount(sameType, hasPhobia)];
             int count = 0;
@@ -86,7 +88,7 @@ namespace Model.Core
     {
         public void Add(Pet pet)
         {
-            if (pet == null || Pets == null) return;
+            if (pet == null || Pets.Length == Capacity || Pets == null) return;
 
             var newPets = new Pet[Pets.Length + 1];
             Array.Copy(Pets, newPets, Pets.Length);
@@ -97,10 +99,13 @@ namespace Model.Core
         public void Add(Pet[] pets)
         {
             if(pets == null || Pets == null) return;
+            int numToAdd = pets.Length;
+            if(Pets.Length + numToAdd > Capacity)
+                numToAdd = Capacity - Pets.Length;
 
-            var newPets = new Pet[Pets.Length + pets.Length];
+            var newPets = new Pet[Pets.Length + numToAdd];
             Array.Copy(Pets, newPets, Pets.Length);
-            Array.Copy(pets, 0, newPets, Pets.Length, newPets.Length);
+            Array.Copy(pets, 0, newPets, Pets.Length, numToAdd);
             Pets = newPets;
         }
 
