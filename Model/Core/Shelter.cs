@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace Model.Core
         public bool HasOpenArea { get; private set; }
         public Pet[] Pets { get; private set; }
 
+        //[JsonConstructor]
         public Shelter(string name,  int capacity, bool hasOpenArea) // bool hasOpenArea = false ?
         {
             Name = name;

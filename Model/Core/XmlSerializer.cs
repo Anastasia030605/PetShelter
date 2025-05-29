@@ -27,7 +27,6 @@ namespace Model.Core
 
         public override T Deserialize<T>(string fileName)
         {
-            throw new NotImplementedException();
             if (String.IsNullOrEmpty(fileName)) return null;
 
             SelectFile(fileName);
@@ -43,18 +42,22 @@ namespace Model.Core
             foreach (var petDTO in obj.Pets)
             {
                 Pet pet;
-                switch (petDTO.PetType)
+                if (petDTO.PetType == typeof(Cat))
                 {
-                    //case typeof(Cat):
-                    //    pet = new Cat(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
-                    //    break;
-                    //case 
-                    default:
-                        continue;
-                        break;
+                    pet = new Cat(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
                 }
-                
+                else if (petDTO.PetType == typeof(Dog))
+                {
+                    pet = new Dog(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
+                }
+                else if (petDTO.PetType == typeof(Rabbit))
+                {
+                    pet = new Rabbit(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
+                }
+                else continue;
+                shelter.Add(pet);
             }
+            return shelter;
         }
 
         private class ShelterDTO
@@ -80,7 +83,7 @@ namespace Model.Core
         }
         private class PetDTO
         {
-            public System.Type PetType { get; set; }
+            public Type PetType { get; set; }
             public string Name { get; set; }
             public int Age { get; set; }
             public int Weigth { get; set; }
