@@ -13,34 +13,30 @@ namespace Model.Core
         public string Name { get; private set; }
         public int Age { get; private set; }
         public int Weigth { get; private set; }
+        public string ChipNumber { get; private set; }
 
-        public Pet(string name, int age, int weight) 
+        public Pet(string name, int age, int weight, string chipNumber) 
         {
             Name = name;
             Age = age;
             Weigth = weight;
+            ChipNumber = chipNumber.PadLeft(16, '0');
         }
 
         public override bool Equals(object? obj)
         {
-            if (base.Equals(obj)) return true;
-            var pet = obj as Pet;
-            if (pet == null) return false;
-            if (pet.GetType() == this.GetType() &&
-                pet.Name == this.Name) // стоит ли сравнивать ещё и возраст и вес? 
-                return true;
-            return false;
+            if (obj is not Pet pet) return false;
+
+            return this.ChipNumber == pet.ChipNumber;
         }
-        //public static override bool operator == (Pet pet1, Pet pet2)
-        //{
-        //    if () return true;
-        //    return false;
-        //}
-        //public static override bool operator != (Pet pet1, Pet pet2)
-        //{
-        //    if () return true;
-        //    return false;
-        //}
+        public static bool operator ==(Pet? pet1, Pet? pet2)
+        {
+            if (ReferenceEquals(pet1, pet2)) return true;
+            if (pet1 is null || pet2 is null) return false;
+            return pet1.Equals(pet2);
+        }
+        public static bool operator !=(Pet? pet1, Pet? pet2) => !(pet1 == pet2);
+        public override int GetHashCode() => ChipNumber.GetHashCode();
     }
 
     public abstract partial class Pet
