@@ -32,7 +32,7 @@ namespace Model.Core
                 using (File.Create(FilePath)) ;
         }
 
-        public abstract void Serialize<T>(T obj, string fileName) where T : Shelter;
-        public abstract T Deserialize<T>(string fileName) where T : Shelter;
+        public abstract void Serialize<T>(T obj, string fileName) where T : DataBase;
+        public abstract T Deserialize<T>(string fileName) where T : DataBase;
     }
 }

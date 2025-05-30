@@ -16,48 +16,58 @@ namespace Model.Core
 
         public override void Serialize<T>(T obj, string fileName)
         {
-            if (String.IsNullOrEmpty(fileName)) return;
-            SelectFile(fileName);
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(ShelterDTO));
-            using (FileStream fs = new FileStream(FilePath, FileMode.OpenOrCreate))
-            {
-                xmlSerializer.Serialize(fs, new ShelterDTO(obj));
-            }
+            throw new NotImplementedException();
+
+            //if (String.IsNullOrEmpty(fileName)) return;
+            //SelectFile(fileName);
+            //XmlSerializer xmlSerializer = new XmlSerializer(typeof(ShelterDTO));
+            //using (FileStream fs = new FileStream(FilePath, FileMode.OpenOrCreate))
+            //{
+            //    xmlSerializer.Serialize(fs, new ShelterDTO(obj));
+            //}
         }
 
         public override T Deserialize<T>(string fileName)
         {
-            if (String.IsNullOrEmpty(fileName)) return null;
+            throw new NotImplementedException();
 
-            SelectFile(fileName);
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(ShelterDTO));
-            ShelterDTO obj;
-            using (FileStream fs = new FileStream(FilePath, FileMode.OpenOrCreate))
-            {
-                obj = xmlSerializer.Deserialize(fs) as ShelterDTO;
-            }
-            if (obj == null) return null;
+            //if (String.IsNullOrEmpty(fileName)) return null;
 
-            T shelter = (T)new Shelter(obj.Name, obj.Capacity, obj.HasOpenArea);
-            foreach (var petDTO in obj.Pets)
-            {
-                Pet pet;
-                if (petDTO.PetType == typeof(Cat))
-                {
-                    pet = new Cat(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
-                }
-                else if (petDTO.PetType == typeof(Dog))
-                {
-                    pet = new Dog(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
-                }
-                else if (petDTO.PetType == typeof(Rabbit))
-                {
-                    pet = new Rabbit(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
-                }
-                else continue;
-                shelter.Add(pet);
-            }
-            return shelter;
+            //SelectFile(fileName);
+            //XmlSerializer xmlSerializer = new XmlSerializer(typeof(ShelterDTO));
+            //ShelterDTO obj;
+            //using (FileStream fs = new FileStream(FilePath, FileMode.OpenOrCreate))
+            //{
+            //    obj = xmlSerializer.Deserialize(fs) as ShelterDTO;
+            //}
+            //if (obj == null) return null;
+
+            //T shelter = (T)new Shelter(obj.Name, obj.Capacity, obj.HasOpenArea);
+            //foreach (var petDTO in obj.Pets)
+            //{
+            //    Pet pet;
+            //    if (petDTO.PetType == typeof(Cat))
+            //    {
+            //        pet = new Cat(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
+            //    }
+            //    else if (petDTO.PetType == typeof(Dog))
+            //    {
+            //        pet = new Dog(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
+            //    }
+            //    else if (petDTO.PetType == typeof(Rabbit))
+            //    {
+            //        pet = new Rabbit(petDTO.Name, petDTO.Age, petDTO.Weigth, petDTO.HasClaustrophobia);
+            //    }
+            //    else continue;
+            //    shelter.Add(pet);
+            //}
+            //return shelter;
+        }
+
+        private class DataBaseDTO
+        {
+            public ShelterDTO[] Shelters { get; set; }
+            public PetDTO[] Homeless {  get; set; } 
         }
 
         private class ShelterDTO
@@ -87,6 +97,7 @@ namespace Model.Core
             public string Name { get; set; }
             public int Age { get; set; }
             public int Weigth { get; set; }
+            public bool InShelter { get; set; }
             public bool HasClaustrophobia { get; set; }
 
             public PetDTO() { }
@@ -96,6 +107,7 @@ namespace Model.Core
                 Name = pet.Name;
                 Age = pet.Age;
                 Weigth = pet.Weigth;
+                InShelter = pet.InShelter;
                 HasClaustrophobia = pet.HasClaustrophobia;
             }
         }

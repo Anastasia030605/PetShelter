@@ -8,22 +8,20 @@ namespace Model.Core
 {
     public class Cat : Pet
     {
-        public Cat(string name, int age, int weight) : base(name, age, weight) { }
-        public Cat(string name, int age, int weight, bool phobia) : base(name, age, weight, phobia) { }
+        public Cat(string name, Gender gender, int age, int weight, bool inShelter, bool phobia = false) :
+            base(name, gender, age, weight, inShelter, phobia) { }
     } // Cat
 
     public class Dog : Pet
     {
-        public Dog(string name, int age, int weight) : base(name, age, weight)
-        {
-            HasClaustrophobia = true;
-        }
-        public Dog(string name, int age, int weight, bool phobia) : base(name, age, weight, phobia) { }
+        public Dog(string name, Gender gender, int age, int weight, bool inShelter, bool phobia = true) :
+            base(name, gender, age, weight, inShelter, phobia) { }
     } // Dog
 
     public class Rabbit : Pet
     {
-        public Rabbit(string name, int age, int weight) : base(name, age, weight) { }
-        public Rabbit(string name, int age, int weight, bool phobia) : base(name, age, weight, phobia) { }
+        public Rabbit(string name, Gender gender, int age, int weight, bool inShelter, bool phobia = false) :
+            base(name, gender, age, weight, inShelter, phobia) { }
+
     } // Rabbit
 }
