@@ -8,12 +8,6 @@ using System.Xml.Linq;
 
 namespace Model.Core
 {
-    public enum gender
-    {
-        MALE,
-        FEMALE
-    }
-
     public abstract partial class Pet
     {
         public string Name { get; private set; }
