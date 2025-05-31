@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Model.Core
 {
-    public enum Gender
+    public enum gender
     {
         MALE,
         FEMALE
@@ -17,12 +17,12 @@ namespace Model.Core
     public abstract partial class Pet
     {
         public string Name { get; private set; }
-        public Gender Gender { get; private set; }
+        public gender Gender { get; private set; }
         public int Age { get; private set; }
         public int Weigth { get; private set; }
         public bool InShelter { get; private set; }
-
-        public Pet(string name, Gender gender, int age, int weight, bool inShelter)
+    
+        public Pet(string name, gender gender, int age, int weight, bool inShelter)
         {
             Name = name;
             Gender = gender;
@@ -54,7 +54,7 @@ namespace Model.Core
         public bool HasClaustrophobia { get; protected set; }
 
         [JsonConstructor]
-        public Pet(string name, Gender gender, int age, int weight, bool inShelter, bool phobia) : this(name, gender, age, weight, inShelter)
+        public Pet(string name, gender gender, int age, int weight, bool inShelter, bool phobia) : this(name, gender, age, weight, inShelter)
         {
             HasClaustrophobia = phobia;
         }
