@@ -8,26 +8,37 @@ using System.Xml.Linq;
 
 namespace Model.Core
 {
+    public enum Gender
+    {
+        MALE,
+        FEMALE
+    }
+
     public abstract partial class Pet
     {
         public string Name { get; private set; }
+        public Gender Gender { get; private set; }
         public int Age { get; private set; }
         public int Weigth { get; private set; }
-        public string ChipNumber { get; private set; }
+        public bool InShelter { get; private set; }
 
-        public Pet(string name, int age, int weight, string chipNumber) 
+        public Pet(string name, Gender gender, int age, int weight, bool inShelter)
         {
             Name = name;
+            Gender = gender;
             Age = age;
             Weigth = weight;
-            ChipNumber = chipNumber.PadLeft(16, '0');
+            InShelter = inShelter;
         }
 
         public override bool Equals(object? obj)
         {
+            if (base.Equals(obj)) return true;
             if (obj is not Pet pet) return false;
-
-            return this.ChipNumber == pet.ChipNumber;
+            if (pet.GetType() == this.GetType() && pet.Name == this.Name &&
+                pet.Age == this.Age && pet.Weigth == this.Weigth)
+                return true;
+            return false;
         }
         public static bool operator ==(Pet? pet1, Pet? pet2)
         {
@@ -36,7 +47,6 @@ namespace Model.Core
             return pet1.Equals(pet2);
         }
         public static bool operator !=(Pet? pet1, Pet? pet2) => !(pet1 == pet2);
-        public override int GetHashCode() => ChipNumber.GetHashCode();
     }
 
     public abstract partial class Pet
@@ -44,7 +54,7 @@ namespace Model.Core
         public bool HasClaustrophobia { get; protected set; }
 
         [JsonConstructor]
-        public Pet (string name, int age, int weight, bool phobia) : this(name, age, weight)  
+        public Pet(string name, Gender gender, int age, int weight, bool inShelter, bool phobia) : this(name, gender, age, weight, inShelter)
         {
             HasClaustrophobia = phobia;
         }
