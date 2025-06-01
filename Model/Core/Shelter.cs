@@ -43,38 +43,36 @@ namespace Model.Core
             return 100 * Count(type) / Count();
         }
 
+        private void Filter(Predicate<Pet> filter, Pet[] to_filter, ref Pet[] filter_to)
+        {
+
+            int count = 0;
+            foreach (Pet pet in to_filter)
+            {
+                if (filter(pet))
+                {
+                    filter_to[count++] = pet;
+                }
+            }
+        }
+
         public Pet[] Filter(Type type)
         {
             var filtered = new Pet[Count(type)];
-            int count = 0;
-            foreach(var pet in Pets)
-            {
-                if (pet.GetType() == type)
-                {
-                    filtered[count] = pet;
-                    count++;
-                }
-            }
-            return  filtered;
+            Filter(pet => pet.GetType() == type, Pets, ref filtered);
+            return filtered;
         }
 
-        public Pet[] Filter(Type type, bool hasPhobia) // мне не нравится, но мне лень думать сейчас
+        public Pet[] Filter(Type type, bool hasPhobia)
         {
-            if (!HasOpenArea) return null; //new Pet[0] ?
+            if (!HasOpenArea) return [];
 
             var sameType = Filter(type);
             var filtered = new Pet[HasPhobiaCount(sameType, hasPhobia)];
-            int count = 0;
-            foreach(var pet in sameType)
-            {
-                if(pet.HasClaustrophobia == hasPhobia)
-                {
-                    filtered[count] = pet;
-                    count++;
-                }
-            }
+            Filter(pet => pet.HasClaustrophobia, sameType, ref filtered);
             return filtered;
         }
+
         private int HasPhobiaCount(Pet[] pets, bool hasPhobia)
         {
             int count = 0;
