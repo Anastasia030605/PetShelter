@@ -11,7 +11,7 @@ namespace Model.Core
         public int HumanInteractionScore { get; private set; } // степень социализации с людьми от 0 до 5
         public bool GroomingTolerant { get; private set; }
 
-        public Cat(string name, gender gender, int age, int weight, bool inShelter, int humanInteractionScore, bool groomingTolerant bool phobia = false) :
+        public Cat(string name, gender gender, int age, int weight, bool inShelter, int humanInteractionScore, bool groomingTolerant, bool phobia = false) :
             base(name, gender, age, weight, inShelter, phobia) 
         {
             HumanInteractionScore = humanInteractionScore;
@@ -19,15 +19,7 @@ namespace Model.Core
         }
     } // Cat
 
-    public enum leashReactivityLevel
-    {
-        Undefined,
-        Calm,
-        Pulls,
-        AggressiveToOtherDogs,
-        Fearful
-    }
-
+    
     public class Dog : Pet
     {
         public leashReactivityLevel LeashReactivityLevel { get; private set; }
@@ -41,11 +33,6 @@ namespace Model.Core
         }
     } // Dog
 
-    public enum dentalStatus
-    {
-        Normal,
-        Macclusion
-    }
     public class Rabbit : Pet
     {
         public bool BondingCompatible { get; private set; } //можно содержать с другими кроликами
