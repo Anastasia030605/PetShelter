@@ -7,13 +7,13 @@ using Newtonsoft.Json;
 
 namespace Model.Core
 {
-    internal class JsonSerializer : Serializer
+    public class JsonSerializer : Serializer
     {
         protected override string Extension => "json";
 
-        public override void Serialize<T>(T obj)
+        public override void Serialize<T>(T obj, string fileName)
         {
-            SelectFile();
+            SelectFile(fileName);
             string json = JsonConvert.SerializeObject(obj);
             File.WriteAllText(FilePath, json);
         }

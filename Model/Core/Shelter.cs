@@ -92,7 +92,7 @@ namespace Model.Core
             pet.MoveToShelter();
             var newPets = new Pet[Pets.Length + 1];
             Array.Copy(Pets, newPets, Pets.Length);
-            newPets[newPets.Length] = pet;
+            newPets[newPets.Length - 1] = pet;
             Pets = newPets;
             }
 

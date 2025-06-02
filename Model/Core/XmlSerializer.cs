@@ -14,9 +14,10 @@ namespace Model.Core
     {
         protected override string Extension => throw new NotImplementedException();
 
-        public override void Serialize<T>(T obj)
+        public override void Serialize<T>(T obj, string fileName)
         {
-            SelectFile();
+            if (String.IsNullOrEmpty(fileName)) return;
+            SelectFile(fileName);
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(DataBaseDTO));
             using (FileStream fs = new FileStream(FilePath, FileMode.OpenOrCreate))
             {
