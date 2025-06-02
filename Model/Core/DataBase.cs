@@ -69,7 +69,6 @@ namespace Model.Core
             Array.Copy(homeless, 0, newHomeless, Homeless.Length, numToAdd);
             Homeless = newHomeless;
         }
-
         //private void Add<T>(T elem, ref T[] array)
         //{
         //    if (elem == null || array == null) return;
@@ -79,5 +78,18 @@ namespace Model.Core
         //    newArray[newArray.Length] = elem;
         //    array = newArray;
         //}                         :((
+        public void MoveTo(Pet pet, Shelter shelter)
+        {
+            if(pet == null || shelter == null || pet.InShelter) return;
+
+            shelter.Add(pet);
+        }
+        public void MoveTo(Pet[] pet, Shelter shelter) //повторы преследуют меня
+        {
+            if (pet == null || shelter == null) return;
+
+            shelter.Add(pet);
+        }
+
     }
 }

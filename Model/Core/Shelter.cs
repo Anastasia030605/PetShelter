@@ -89,12 +89,12 @@ namespace Model.Core
         public void Add(Pet pet)
         {
             if (pet == null || Pets == null || Pets.Length == Capacity) return;
-
+            pet.MoveToShelter();
             var newPets = new Pet[Pets.Length + 1];
             Array.Copy(Pets, newPets, Pets.Length);
             newPets[newPets.Length] = pet;
             Pets = newPets;
-        }
+            }
 
         public void Add(Pet[] pets)
         {
@@ -102,7 +102,8 @@ namespace Model.Core
             int numToAdd = pets.Length;
             if(Pets.Length + numToAdd > Capacity)
                 numToAdd = Capacity - Pets.Length;
-
+            for(int k = 0; k < numToAdd; ++k)
+                pets[k].MoveToShelter();
             var newPets = new Pet[Pets.Length + numToAdd];
             Array.Copy(Pets, newPets, Pets.Length);
             Array.Copy(pets, 0, newPets, Pets.Length, numToAdd);
@@ -111,7 +112,6 @@ namespace Model.Core
 
         public void Remove(Pet pet)
         {
-            throw new NotImplementedException();
             int place = -1;
             for(int k = 0; k < Pets.Length; k++)
             {
@@ -122,6 +122,7 @@ namespace Model.Core
                 }
             }
             if (place == -1) return;
+            Pets[place].RemoveFromShelter();
             var newPets = new Pet[Pets.Length - 1];
             Array.Copy(Pets, newPets, place);
             Array.Copy(Pets, place + 1, newPets, place, newPets.Length - place);
