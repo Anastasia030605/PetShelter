@@ -88,7 +88,7 @@ namespace Model.Core
     {
         public void Add(Pet pet)
         {
-            if (pet == null || Pets.Length == Capacity || Pets == null) return;
+            if (pet == null || Pets == null || Pets.Length == Capacity) return;
 
             var newPets = new Pet[Pets.Length + 1];
             Array.Copy(Pets, newPets, Pets.Length);
