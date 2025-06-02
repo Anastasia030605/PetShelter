@@ -11,9 +11,9 @@ namespace Model.Core
     {
         protected override string Extension => "json";
 
-        public override void Serialize<T>(T obj, string fileName)
+        public override void Serialize<T>(T obj)
         {
-            SelectFile(fileName);
+            SelectFile();
             string json = JsonConvert.SerializeObject(obj);
             File.WriteAllText(FilePath, json);
         }

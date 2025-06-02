@@ -8,10 +8,11 @@ namespace Model.Core
 {
     public class DataBase
     {
-        public Shelter[] Shelters {  get; private set; }
-        public Pet[] Homeless {  get; private set; }
+        public Shelter[] Shelters { get; private set; }
+        public Pet[] Homeless { get; private set; }
 
-        public DataBase() {
+        public DataBase()
+        {
             Shelters = new Shelter[3];
             Shelters[0] = new Shelter("Простоквашино", 5, true);
             Shelters[1] = new Shelter("Приют 1", 30, true);
@@ -41,12 +42,54 @@ namespace Model.Core
             Shelters[2].Add(new Dog("Молли", gender.Female, 5, 15, true, leashReactivityLevel.Pulls, 2, false));
         }
 
-        public DataBase(Shelter[] shelters, Pet[] homeless) 
+        public DataBase(Shelter[] shelters, Pet[] homeless)
         {
             Shelters = shelters;
             Homeless = homeless;
+            if (Shelters == null) Shelters = new Shelter[0];
+            if (Homeless == null) Homeless = new Pet[0];
         }
 
-        //future methods
+        public void Add(Pet pet)
+        {
+            if (pet == null || Homeless == null || pet.InShelter) return;
+
+            var newHomeless = new Pet[Homeless.Length + 1];
+            Array.Copy(Homeless, newHomeless, Homeless.Length);
+            newHomeless[newHomeless.Length] = pet;
+            Homeless = newHomeless;
+        }
+        public void Add(Pet[] homeless)
+        {
+            if (Homeless == null || homeless == null) return;
+            int numToAdd = homeless.Length;
+
+            var newHomeless = new Pet[Homeless.Length + numToAdd];
+            Array.Copy(Homeless, newHomeless, Homeless.Length);
+            Array.Copy(homeless, 0, newHomeless, Homeless.Length, numToAdd);
+            Homeless = newHomeless;
+        }
+        //private void Add<T>(T elem, ref T[] array)
+        //{
+        //    if (elem == null || array == null) return;
+
+        //    var newArray = new T[array.Length + 1];
+        //    Array.Copy(array, newArray, array.Length);
+        //    newArray[newArray.Length] = elem;
+        //    array = newArray;
+        //}                         :((
+        public void MoveTo(Pet pet, Shelter shelter)
+        {
+            if(pet == null || shelter == null || pet.InShelter) return;
+
+            shelter.Add(pet);
+        }
+        public void MoveTo(Pet[] pet, Shelter shelter) //повторы преследуют меня
+        {
+            if (pet == null || shelter == null) return;
+
+            shelter.Add(pet);
+        }
+
     }
 }

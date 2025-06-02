@@ -25,6 +25,15 @@ namespace Model.Core
             InShelter = inShelter;
         }
 
+        public void MoveToShelter()
+        {
+            InShelter = true;
+        }
+        public void RemoveFromShelter()
+        {
+            InShelter = false;
+        }
+
         public override bool Equals(object? obj)
         {
             if (base.Equals(obj)) return true;
