@@ -1,5 +1,5 @@
 using Model.Core;
-using Newtonsoft.Json;
+//using Newtonsoft.Json;
 
 namespace PetShelter
 {
@@ -37,23 +37,32 @@ namespace PetShelter
             if (!File.Exists(databasePath))
             {
                 DataBase defaultDB = new DataBase();
-                Model.Core.JsonSerializer serializer = new();
-                serializer.Serialize(defaultDB, databasePath);
-                BaseDir = serializer.FolderPath;
+                Model.Core.JsonSerializer serializerJson = new();
+                Model.Core.XMLSerializer serializerXml = new();
+                serializerJson.Serialize(defaultDB, databasePath);
+                serializerXml.Serialize(defaultDB, databasePath);
+                BaseDir = serializerJson.FolderPath;
             }
         }
 
         private void LoadData(string FilePath)
         {
-            if (string.IsNullOrWhiteSpace(FilePath)) {
+            if (string.IsNullOrWhiteSpace(FilePath))
+            {
                 MessageBox.Show("Некорректный путь к файлу",
                                 "Повторите попытку",
                                  MessageBoxButtons.OK,
                                  MessageBoxIcon.Warning);
-                return; 
+                return;
             }
+            
+            Serializer serializer;
+            if (Path.GetExtension(FilePath).ToLower() == ".json")
+                serializer = new JsonSerializer();
+            else serializer = new XMLSerializer();
+
             try {
-                this.DataBase = JsonConvert.DeserializeObject<DataBase>(File.ReadAllText(FilePath));
+                this.DataBase = serializer.Deserialize<DataBase>(FilePath); //JsonConvert.DeserializeObject<DataBase>(File.ReadAllText(FilePath));
                 MessageBox.Show("Файл успешно загружен");
             }
             catch(Exception ex) {
@@ -68,8 +77,8 @@ namespace PetShelter
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
-            openFileDialog.Title = "Выберите JSON-файл";
-            openFileDialog.Filter = "JSON files (*.json)|*.json|Все файлы (*.*)|*.*";
+            openFileDialog.Title = "Выберите JSON или XML файл";
+            openFileDialog.Filter = "JSONorXML files (*.json;*.xml)|*.json;*.xml|Все файлы (*.*)|*.*";
             openFileDialog.FilterIndex = 1;
             openFileDialog.RestoreDirectory = true;
             openFileDialog.CheckFileExists = true;
@@ -79,10 +88,10 @@ namespace PetShelter
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string selectedFilePath = openFileDialog.FileName;
-
-                if (Path.GetExtension(selectedFilePath).ToLower() != ".json")
+                
+                if (Path.GetExtension(selectedFilePath).ToLower() != ".json" && Path.GetExtension(selectedFilePath).ToLower() != ".xml")
                 {
-                    MessageBox.Show("Пожалуйста, выберите файл с расширением .json",
+                    MessageBox.Show("Пожалуйста, выберите файл с расширением .json или .xml",
                                  "Неверный формат файла",
                                  MessageBoxButtons.OK,
                                  MessageBoxIcon.Warning);
