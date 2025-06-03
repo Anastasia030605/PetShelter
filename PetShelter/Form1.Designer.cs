@@ -31,6 +31,7 @@ namespace PetShelter
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             tableLayoutPanel1 = new TableLayoutPanel();
             FileLoader = new Button();
             tableLayoutPanel1.SuspendLayout();
@@ -55,11 +56,13 @@ namespace PetShelter
             // 
             // FileLoader
             // 
+            FileLoader.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            FileLoader.BackgroundImage = (Image)resources.GetObject("FileLoader.BackgroundImage");
+            FileLoader.BackgroundImageLayout = ImageLayout.Zoom;
             FileLoader.Location = new Point(3, 3);
             FileLoader.Name = "FileLoader";
-            FileLoader.Size = new Size(75, 23);
+            FileLoader.Size = new Size(500, 500);
             FileLoader.TabIndex = 0;
-            FileLoader.Text = "Load file";
             FileLoader.UseVisualStyleBackColor = true;
             FileLoader.Click += FileLoader_Click;
             // 
@@ -73,7 +76,6 @@ namespace PetShelter
             Name = "MainForm";
             Text = "PetShelter";
             WindowState = FormWindowState.Maximized;
-            Load += Form1_Load;
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
