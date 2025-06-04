@@ -8,7 +8,7 @@ namespace Model.Core
 {
     public partial class XMLSerializer : Serializer
     {
-        private class DataBaseDTO
+        public class DataBaseDTO
         {
             public ShelterDTO[] Shelters { get; set; }
             public PetDTO[] Homeless { get; set; }
@@ -30,7 +30,7 @@ namespace Model.Core
 
         }// DataBaseDTO
 
-        private class ShelterDTO
+        public class ShelterDTO
         {
             public string Name { get; set; }
             public int Capacity { get; set; }
@@ -60,10 +60,10 @@ namespace Model.Core
         }// ShelterDTO
 
 
-        private class PetDTO
+        public class PetDTO
         {
             // тип
-            public Type PetType { get; set; } 
+            public string PetType { get; set; } 
             // общия свойства
             public string Name { get; set; }
             public gender Gender { get; set; }
@@ -82,7 +82,7 @@ namespace Model.Core
             public PetDTO() { }
             public PetDTO(Pet pet)
             {
-                PetType = pet.GetType();
+                PetType = pet.GetType().ToString();
                 Name = pet.Name;
                 Gender = pet.Gender;
                 Age = pet.Age;
@@ -108,11 +108,11 @@ namespace Model.Core
 
             public Pet ToPet()
             {
-                if (PetType == typeof(Cat))
+                if (PetType == typeof(Cat).ToString())
                     return new Cat(Name, Gender, Age, Weigth, InShelter, HumanInteractionScore, GroomingTolerant, HasClaustrophobia);
-                if (PetType == typeof(Dog))
+                if (PetType == typeof(Dog).ToString())
                     return new Dog(Name, Gender, Age, Weigth, InShelter, LeashReactivityLevel, DailyWalks, HasClaustrophobia);
-                if (PetType == typeof(Rabbit))
+                if (PetType == typeof(Rabbit).ToString())
                     return new Rabbit(Name, Gender, Age, Weigth, InShelter, BondingCompatible, DentalStatus, HasClaustrophobia);
                 return null;
             }

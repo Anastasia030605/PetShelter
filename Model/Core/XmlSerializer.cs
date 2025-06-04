@@ -12,7 +12,7 @@ namespace Model.Core
 {
     public partial class XMLSerializer : Serializer
     {
-        protected override string Extension => throw new NotImplementedException();
+        protected override string Extension => "xml";
 
         public override void Serialize<T>(T obj, string fileName)
         {
@@ -21,15 +21,16 @@ namespace Model.Core
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(DataBaseDTO));
             using (FileStream fs = new FileStream(FilePath, FileMode.OpenOrCreate))
             {
-                xmlSerializer.Serialize(fs, new DataBaseDTO(obj));
+                var objForSer = new DataBaseDTO(obj);
+                xmlSerializer.Serialize(fs, objForSer);
             }
         }
 
-        public override T Deserialize<T>(string fileName)
+        public override T Deserialize<T>(string filePath)
         {
-            if (String.IsNullOrEmpty(fileName)) return null;
+            if (String.IsNullOrEmpty(filePath)) return null;
 
-            SelectFile(fileName);
+            FilePath = filePath;
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(DataBaseDTO));
             DataBaseDTO databaseDTO;
             using (FileStream fs = new FileStream(FilePath, FileMode.OpenOrCreate))

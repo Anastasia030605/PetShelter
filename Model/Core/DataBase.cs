@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Core
 {
-    public class DataBase
+    public class DataBase : ICountable, IFilter
     {
         public Shelter[] Shelters { get; private set; }
         public Pet[] Homeless { get; private set; }
@@ -69,18 +69,9 @@ namespace Model.Core
             Array.Copy(homeless, 0, newHomeless, Homeless.Length, numToAdd);
             Homeless = newHomeless;
         }
-        //private void Add<T>(T elem, ref T[] array)
-        //{
-        //    if (elem == null || array == null) return;
-
-        //    var newArray = new T[array.Length + 1];
-        //    Array.Copy(array, newArray, array.Length);
-        //    newArray[newArray.Length] = elem;
-        //    array = newArray;
-        //}                         :((
         public void MoveTo(Pet pet, Shelter shelter)
         {
-            if(pet == null || shelter == null || pet.InShelter) return;
+            if (pet == null || shelter == null || pet.InShelter) return;
 
             shelter.Add(pet);
         }
@@ -90,6 +81,86 @@ namespace Model.Core
 
             shelter.Add(pet);
         }
+        // ICountable
+        public int Count()
+        {
+            int count = Homeless.Length;
+            foreach (var shelter in Shelters)
+                count += shelter.Count();
+            return count;
+        }
 
+        public int Count(Type type)
+        {
+            if (type == typeof(Pet)) return Count();
+
+            int count = 0;
+            foreach (var pet in Homeless)
+            {
+                if (pet.GetType() == type) count++;
+            }
+            foreach(var shelter in Shelters)
+            {
+                count += shelter.Count(type);
+            }
+            return count;
+        }
+        public int Percentage(Type type)
+        {
+            return 100 * Count(type) / Count();
+        }
+
+        // IFilter
+        private void Filter(Predicate<Pet> filter, Pet[] to_filter, ref Pet[] filter_to)
+        {
+            int count = 0;
+            foreach (Pet pet in to_filter)
+            {
+                if (filter(pet))
+                {
+                    filter_to[count++] = pet;
+                }
+            }
+        }
+        public Pet[] Filter(Type type)
+        {
+            int countType = Count(type);
+            var filtered = new Pet[countType];
+            Filter(pet => pet.GetType().IsAssignableTo(type), Homeless, ref filtered);
+
+            int inShelerCount = 0;
+            foreach(var shelter in Shelters)
+            {
+                inShelerCount += shelter.Count(type);
+            }
+
+            int index = countType - inShelerCount;
+            foreach (var shelter in Shelters)
+            {
+                var current = shelter.Filter(type);
+                Array.Copy(current, 0, filtered, index, current.Length);
+                index += current.Length;
+            }
+            return filtered;
+        }
+
+        public Pet[] Filter(Type type, bool hasPhobia)
+        {
+            var sameType = Filter(type);
+            var filtered = new Pet[HasPhobiaCount(sameType, hasPhobia)];
+            Filter(pet => pet.HasClaustrophobia, sameType, ref filtered);
+            return filtered;
+        }
+
+        private int HasPhobiaCount(Pet[] pets, bool hasPhobia)
+        {
+            int count = 0;
+            foreach (var pet in pets)
+            {
+                if (pet.HasClaustrophobia == hasPhobia) count++;
+            }
+            return count;
+        }
     }
 }
+

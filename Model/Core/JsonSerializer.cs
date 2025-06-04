@@ -18,9 +18,9 @@ namespace Model.Core
             File.WriteAllText(FilePath, json);
         }
 
-        public override T Deserialize<T>(string fileName)
+        public override T Deserialize<T>(string filePath)
         {
-            SelectFile(fileName);
+            FilePath = filePath;
             string json = File.ReadAllText(FilePath);
             return JsonConvert.DeserializeObject<T>(json);
         }
