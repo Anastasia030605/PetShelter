@@ -62,8 +62,10 @@ namespace PetShelter
             else serializer = new XMLSerializer();
 
             try {
-                this.DataBase = serializer.Deserialize<DataBase>(FilePath); //JsonConvert.DeserializeObject<DataBase>(File.ReadAllText(FilePath));
-                MessageBox.Show("Файл успешно загружен");
+                this.DataBase = serializer.Deserialize<DataBase>(FilePath); 
+                MainMenu mainMenu = new MainMenu(this.DataBase);
+                mainMenu.ShowDialog();
+                //MessageBox.Show("Файл успешно загружен");
             }
             catch(Exception ex) {
                 MessageBox.Show(ex.Message,

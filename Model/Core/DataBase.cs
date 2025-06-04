@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Model.Core
 {
-    public class DataBase : IFilter
+    public class DataBase : ICountable, IFilter
     {
         public Shelter[] Shelters { get; private set; }
         public Pet[] Homeless { get; private set; }
@@ -81,11 +81,38 @@ namespace Model.Core
 
             shelter.Add(pet);
         }
+        // ICountable
+        public int Count()
+        {
+            int count = Homeless.Length;
+            foreach (var shelter in Shelters)
+                count += shelter.Count();
+            return count;
+        }
+
+        public int Count(Type type)
+        {
+            if (type == typeof(Pet)) return Count();
+
+            int count = 0;
+            foreach (var pet in Homeless)
+            {
+                if (pet.GetType() == type) count++;
+            }
+            foreach(var shelter in Shelters)
+            {
+                count += shelter.Count(type);
+            }
+            return count;
+        }
+        public int Percentage(Type type)
+        {
+            return 100 * Count(type) / Count();
+        }
 
         // IFilter
         private void Filter(Predicate<Pet> filter, Pet[] to_filter, ref Pet[] filter_to)
         {
-
             int count = 0;
             foreach (Pet pet in to_filter)
             {
@@ -97,20 +124,17 @@ namespace Model.Core
         }
         public Pet[] Filter(Type type)
         {
-            int count = 0;
-            var filteredHomeless = new Pet[0];
-            Filter(pet => pet.GetType().IsAssignableTo(type), Homeless, ref filteredHomeless);
-            count += filteredHomeless.Length;
+            int countType = Count(type);
+            var filtered = new Pet[countType];
+            Filter(pet => pet.GetType().IsAssignableTo(type), Homeless, ref filtered);
 
-            foreach (var shelter in Shelters)
+            int inShelerCount = 0;
+            foreach(var shelter in Shelters)
             {
-                count += shelter.Count(type);
+                inShelerCount += shelter.Count(type);
             }
 
-            var filtered = new Pet[count];
-            int index = 0;
-            Array.Copy(filteredHomeless, filtered, filteredHomeless.Length);
-            index += filteredHomeless.Length;
+            int index = countType - inShelerCount;
             foreach (var shelter in Shelters)
             {
                 var current = shelter.Filter(type);

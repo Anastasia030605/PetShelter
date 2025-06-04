@@ -32,6 +32,7 @@ namespace Model.Core
 
         public int Count(Type type)
         {
+            if (type == typeof(Pet)) return Count();
             int count = 0;
             foreach(var pet in Pets)
             {
