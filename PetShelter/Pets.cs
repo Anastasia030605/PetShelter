@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace PetShelter
 {
@@ -23,6 +24,12 @@ namespace PetShelter
         //Cat
         private int InteractionScoreForCat { get; set; }
         private bool TolerantGroomingForCar { get; set; }
+        //Dog
+        private leashReactivityLevel LeashReactivityLevelForDog { get; set; }
+        private int DailyWalkForDog { get; set; }
+        //Rabbit
+        private bool BondingCompatibleForRabbit { get; set; }
+        private dentalStatus DentalStatusForRabbit { get; set; }
 
         public Pets(IFilter filterable, Type type, int claustrophobic)
 
@@ -96,7 +103,19 @@ namespace PetShelter
             groupBoxDentalStatus.Visible = visibleForRabbit;
             //DentalStatus
         }
+        private void buttonAddPet_Click(object sender, EventArgs e)
+        {
+            if (TypeForPet == null)
+                MessageBox.Show(":(( ");
 
+            //RadioButton selected = group.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+
+            //if (selected == null)
+            //{
+            //    MessageBox.Show("Сделайте выбор!");
+            //    return;
+            //}
+        }
         //for pet
         private void textBoxEnterName_TextChanged(object sender, EventArgs e)
         {
@@ -106,19 +125,16 @@ namespace PetShelter
         {
             AgeForPet = (int)numericUpDownSelectAge.Value;
         }
-
         private void numericUpDownSelectWeight_ValueChanged(object sender, EventArgs e)
         {
             WeigthForPet = (int)numericUpDownSelectWeight.Value;
         }
-
         private void groupBoxSelectDender_Enter(object sender, EventArgs e)
         {
             if (radioButtonSelectedGenderMale.Checked)
                 GenderForPet = gender.Male;
             if (radioButtonSelectedGenderFemale.Checked)
                 GenderForPet = gender.Female;
-            //обработать
         }
         private void groupBoxSelectPhobia_Enter(object sender, EventArgs e)
         {
@@ -145,20 +161,63 @@ namespace PetShelter
         //for dog
         private void groupBoxLeashReactivityLevel_Enter(object sender, EventArgs e)
         {
-            
+            radioButtonUndefined.CheckedChanged += RadioButtonCheckedChanged_LeashReactivityLevel;
+            radioButtonCalm.CheckedChanged += RadioButtonCheckedChanged_LeashReactivityLevel;
+            radioButtonPulls.CheckedChanged += RadioButtonCheckedChanged_LeashReactivityLevel;
+            radioButtonAggressiveToOtherDogs.CheckedChanged += RadioButtonCheckedChanged_LeashReactivityLevel;
+            radioButtonFearful.CheckedChanged += RadioButtonCheckedChanged_LeashReactivityLevel;
         }
+        private void RadioButtonCheckedChanged_LeashReactivityLevel(object sender, EventArgs e)
+        {
+            var selectedRB = sender as RadioButton;
+            if (selectedRB != null && selectedRB.Checked)
+            {
+                if (selectedRB.Text == "Undefined")
+                    LeashReactivityLevelForDog = leashReactivityLevel.Undefined;
+                else if (selectedRB.Text == "Calm")
+                    LeashReactivityLevelForDog = leashReactivityLevel.Calm;
+                else if (selectedRB.Text == "Pulls")
+                    LeashReactivityLevelForDog = leashReactivityLevel.Pulls;
+                else if (selectedRB.Text == "AggressiveToOtherDogs")
+                    LeashReactivityLevelForDog = leashReactivityLevel.AggressiveToOtherDogs;
+                else if (selectedRB.Text == "Fearful")
+                    LeashReactivityLevelForDog = leashReactivityLevel.Fearful;
+            }
+        }
+        private void numericUpDownDailyWalks_ValueChanged(object sender, EventArgs e)
+        {
+            DailyWalkForDog = (int)numericUpDownDailyWalks.Value;
+        }
+        //for rabbit
+        private void groupBoxBondingCompatible_Enter(object sender, EventArgs e)
+        {
+            radioButtonBondingCompatible.CheckedChanged += RadioButtonCheckedChanged_BondingCompatible;
+            radioButtonNotBondingCompatible.CheckedChanged += RadioButtonCheckedChanged_BondingCompatible;
+        }
+        private void RadioButtonCheckedChanged_BondingCompatible(object sender, EventArgs e)
+        {
+            var selectedRB = sender as RadioButton;
+            if (selectedRB != null && selectedRB.Checked)
+                BondingCompatibleForRabbit = selectedRB.Text == "yes";
+        }
+        private void groupBoxDentalStatus_Enter(object sender, EventArgs e)
+        {
+            radioButtonDentalStatusMacclusion.CheckedChanged += RadioButtonCheckedChanged_DentalStatus;
+            radioButtonDentalStatusNormal.CheckedChanged += RadioButtonCheckedChanged_DentalStatus;
+        }
+        private void RadioButtonCheckedChanged_DentalStatus(object sender, EventArgs e)
+        {
+            var selectedRB = sender as RadioButton;
+            if (selectedRB != null && selectedRB.Checked)
+            {
+                if (selectedRB.Text == "Macclusion")
+                    DentalStatusForRabbit = dentalStatus.Macclusion;
+                else if (selectedRB.Text == "Normal")
+                    DentalStatusForRabbit = dentalStatus.Normal;
 
-
-        //private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        //{
-
-        //}
-
-        //private void radioButton3_CheckedChanged(object sender, EventArgs e)
-        //{
-
-        //}
-
+            }
+        }
+        //
         private void Send(IFilter filterable, Type type, int claustrophobic)
         {
             if (claustrophobic == -1)

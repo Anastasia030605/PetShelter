@@ -56,6 +56,7 @@
             groupBoxDentalStatus = new GroupBox();
             radioButtonDentalStatusMacclusion = new RadioButton();
             radioButtonDentalStatusNormal = new RadioButton();
+            buttonAddPet = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewPets).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownSelectAge).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownSelectWeight).BeginInit();
@@ -237,7 +238,7 @@
             groupBoxLeashReactivityLevel.Controls.Add(radioButtonPulls);
             groupBoxLeashReactivityLevel.Controls.Add(radioButtonCalm);
             groupBoxLeashReactivityLevel.Controls.Add(radioButtonUndefined);
-            groupBoxLeashReactivityLevel.Location = new Point(255, 439);
+            groupBoxLeashReactivityLevel.Location = new Point(271, 439);
             groupBoxLeashReactivityLevel.Name = "groupBoxLeashReactivityLevel";
             groupBoxLeashReactivityLevel.Size = new Size(240, 178);
             groupBoxLeashReactivityLevel.TabIndex = 10;
@@ -307,6 +308,7 @@
             numericUpDownDailyWalks.Name = "numericUpDownDailyWalks";
             numericUpDownDailyWalks.Size = new Size(85, 27);
             numericUpDownDailyWalks.TabIndex = 11;
+            numericUpDownDailyWalks.ValueChanged += numericUpDownDailyWalks_ValueChanged;
             // 
             // groupBoxBondingCompatible
             // 
@@ -319,6 +321,7 @@
             groupBoxBondingCompatible.TabIndex = 12;
             groupBoxBondingCompatible.TabStop = false;
             groupBoxBondingCompatible.Text = "BondingCompatible";
+            groupBoxBondingCompatible.Enter += groupBoxBondingCompatible_Enter;
             // 
             // radioButtonNotBondingCompatible
             // 
@@ -353,6 +356,7 @@
             groupBoxDentalStatus.TabIndex = 13;
             groupBoxDentalStatus.TabStop = false;
             groupBoxDentalStatus.Text = "DentalStatus";
+            groupBoxDentalStatus.Enter += groupBoxDentalStatus_Enter;
             // 
             // radioButtonDentalStatusMacclusion
             // 
@@ -376,11 +380,24 @@
             radioButtonDentalStatusNormal.Text = "Normal";
             radioButtonDentalStatusNormal.UseVisualStyleBackColor = true;
             // 
+            // buttonAddPet
+            // 
+            buttonAddPet.BackColor = Color.Maroon;
+            buttonAddPet.ForeColor = Color.White;
+            buttonAddPet.Location = new Point(869, 335);
+            buttonAddPet.Name = "buttonAddPet";
+            buttonAddPet.Size = new Size(138, 79);
+            buttonAddPet.TabIndex = 14;
+            buttonAddPet.Text = "добавить питомца в приют";
+            buttonAddPet.UseVisualStyleBackColor = false;
+            buttonAddPet.Click += buttonAddPet_Click;
+            // 
             // Pets
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1050, 629);
+            Controls.Add(buttonAddPet);
             Controls.Add(groupBoxDentalStatus);
             Controls.Add(groupBoxBondingCompatible);
             Controls.Add(numericUpDownDailyWalks);
@@ -447,6 +464,7 @@
         private RadioButton radioButtonHasNoPhobia;
         private RadioButton radioButtonNotTolerant;
         private RadioButton radioButtonNotBondingCompatible;
+        private Button buttonAddPet;
         //private RadioButton radioButton1;
     }
 }
