@@ -63,6 +63,11 @@ namespace PetShelter
             comboBoxClaustrophobiaFilter.SelectedIndex = 0;
         }
 
+        public void RemovePet(Pet pet)
+        {
+            DataBase.RemoveFromDB(pet);
+        }
+
         private void comboBoxShelters_SelectedIndexChanged(object sender, EventArgs e)
         {
             SelectedShelter = comboBoxShelters.SelectedItem as Shelter;

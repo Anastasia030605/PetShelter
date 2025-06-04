@@ -41,6 +41,7 @@ namespace PetShelter
             dataGridViewPets.DataSource = SelectedPets;
 
             dataGridViewPets.AutoGenerateColumns = true;
+            dataGridViewPets.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
 
             bool isVisible = filterable is Shelter shelter;
             //тип
@@ -154,7 +155,7 @@ namespace PetShelter
         }
         private void RadioButtonCheckedChanged_GroomingTolersnt(object sender, EventArgs e)
         {
-            var selectedRB = sender as RadioButton;
+            var selectedRB = sender as System.Windows.Forms.RadioButton;
             if (selectedRB != null && selectedRB.Checked)
                 TolerantGroomingForCar = selectedRB.Text == "yes";
         }
@@ -169,7 +170,7 @@ namespace PetShelter
         }
         private void RadioButtonCheckedChanged_LeashReactivityLevel(object sender, EventArgs e)
         {
-            var selectedRB = sender as RadioButton;
+            var selectedRB = sender as System.Windows.Forms.RadioButton;
             if (selectedRB != null && selectedRB.Checked)
             {
                 if (selectedRB.Text == "Undefined")
@@ -196,7 +197,7 @@ namespace PetShelter
         }
         private void RadioButtonCheckedChanged_BondingCompatible(object sender, EventArgs e)
         {
-            var selectedRB = sender as RadioButton;
+            var selectedRB = sender as System.Windows.Forms.RadioButton;
             if (selectedRB != null && selectedRB.Checked)
                 BondingCompatibleForRabbit = selectedRB.Text == "yes";
         }
@@ -207,7 +208,7 @@ namespace PetShelter
         }
         private void RadioButtonCheckedChanged_DentalStatus(object sender, EventArgs e)
         {
-            var selectedRB = sender as RadioButton;
+            var selectedRB = sender as System.Windows.Forms.RadioButton;
             if (selectedRB != null && selectedRB.Checked)
             {
                 if (selectedRB.Text == "Macclusion")
@@ -230,6 +231,16 @@ namespace PetShelter
             }
         }
 
-        
+        private void DeletePet_Click(object sender, EventArgs e)
+        {
+            if(dataGridViewPets.SelectedRows.Count == 0) return;
+            Pet pet = (Pet)dataGridViewPets.SelectedRows[0].DataBoundItem;
+            MainMenu mainMenu = Application.OpenForms.OfType<MainMenu>().FirstOrDefault();
+            if(mainMenu == null)
+            {
+                MessageBox.Show("Oops I did it again");
+            }
+            mainMenu.RemovePet(pet);
+        }
     }
 }

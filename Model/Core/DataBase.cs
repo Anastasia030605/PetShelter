@@ -122,6 +122,23 @@ namespace Model.Core
                 }
             }
         }
+        public void RemoveFromDB(Pet pet)
+        {
+            if (pet == null) return;
+            if(pet.InShelter)
+            {
+                for(int i = 0; i < Shelters.Length; ++i)
+                {
+                    Shelters[i].Remove(pet);
+                }
+            } else
+            {
+                if(Homeless.Contains(pet))
+                {
+                    Homeless = Homeless.Where(x => x != pet).ToArray();
+                }
+            }
+        }
         public Pet[] Filter(Type type)
         {
             int countType = Count(type);
