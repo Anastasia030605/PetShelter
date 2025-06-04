@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static PetShelter.MainMenu;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace PetShelter
@@ -19,8 +20,13 @@ namespace PetShelter
         private Type SelectedPetType { get; set; }
         private int SelectedClaustrophobic { get; set; }
         private int SelectedOpenSpace { get; set; }
+        private class ComboItem
+        {
+            public string Display { get; set; }  // То, что показывается
+            public int Value { get; set; }      // Скрытое значение
 
-
+            public override string ToString() => Display;
+        }
         public MainMenu(DataBase database)
         {
             InitializeComponent();
@@ -35,29 +41,26 @@ namespace PetShelter
             comboBoxPetType.DisplayMember = "Name";
             comboBoxPetType.SelectedIndex = -1;
 
-            comboBoxOpenSpace.DataSource = new[]
-            {
-            new { Name = "Не выбрано",  Value = -1 },
-            new { Name = "Нет", Value = 0 },
-            new { Name = "Есть", Value = 1 }
-            };
-
+            comboBoxOpenSpace.DataSource = new List<ComboItem> {
+            new ComboItem { Display = "Не выбрано", Value = -1 },
+            new ComboItem { Display = "Нет", Value = 0 },
+            new ComboItem { Display = "Есть", Value = 1 }
+        };
+            comboBoxOpenSpace.DisplayMember = "Display";
+            comboBoxOpenSpace.ValueMember = "Value";
             SelectedOpenSpace = -1;
             comboBoxOpenSpace.SelectedIndex = 0;
-            comboBoxOpenSpace.DisplayMember = "Name";
-            comboBoxOpenSpace.ValueMember = "Value";
 
-            comboBoxClaustrophobiaFilter.DataSource = new[]
-            {
-            new { Name = "Не выбрано", Value = -1 },
-            new { Name = "Нет", Value = 0 },
-            new { Name = "Есть", Value = 1 }
-            };
+            comboBoxClaustrophobiaFilter.DataSource = new List<ComboItem> {
+            new ComboItem { Display = "Не выбрано", Value = -1 },
+            new ComboItem { Display = "Нет", Value = 0 },
+            new ComboItem { Display = "Есть", Value = 1 }
+        };
+            comboBoxClaustrophobiaFilter.DisplayMember = "Display";
+            comboBoxClaustrophobiaFilter.ValueMember = "Value";
 
             SelectedClaustrophobic = -1;
             comboBoxClaustrophobiaFilter.SelectedIndex = 0;
-            comboBoxClaustrophobiaFilter.DisplayMember = "Name";
-            comboBoxClaustrophobiaFilter.ValueMember = "Value";
         }
 
         private void comboBoxShelters_SelectedIndexChanged(object sender, EventArgs e)
@@ -81,13 +84,15 @@ namespace PetShelter
 
         private void comboBoxOpenSpace_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectedOpenSpace = (int)comboBoxOpenSpace.SelectedValue;
-            switch (SelectedOpenSpace) {
+            var comboItem = comboBoxOpenSpace.SelectedItem as ComboItem;
+            SelectedOpenSpace = comboItem.Value;
+            switch (SelectedOpenSpace)
+            {
                 case 0:
                     comboBoxShelters.DataSource = DataBase.Shelters.Where(shelter => !shelter.HasOpenArea).ToArray();
                     break;
                 case 1:
-                    comboBoxShelters.DataSource = DataBase.Shelters.Where(shelter => shelter.HasOpenArea).ToArray(); 
+                    comboBoxShelters.DataSource = DataBase.Shelters.Where(shelter => shelter.HasOpenArea).ToArray();
                     break;
                 case -1:
                     comboBoxShelters.DataSource = DataBase.Shelters;
@@ -97,7 +102,8 @@ namespace PetShelter
 
         private void comboBoxClaustrophobiaFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectedClaustrophobic = (int)comboBoxClaustrophobiaFilter.SelectedValue;
+                var comboItem = comboBoxClaustrophobiaFilter.SelectedItem as ComboItem;
+                SelectedClaustrophobic = comboItem.Value;
         }
     }
 }
