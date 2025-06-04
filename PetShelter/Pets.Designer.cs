@@ -37,9 +37,11 @@
             radioButtonSelectedGenderFemale = new RadioButton();
             radioButtonSelectedGenderMale = new RadioButton();
             groupBoxSelectPhobia = new GroupBox();
+            radioButtonHasNoPhobia = new RadioButton();
             radioButtonHasPhobia = new RadioButton();
             numericUpDownHumanInteractionScore = new NumericUpDown();
             groupBoxGroomingTolerant = new GroupBox();
+            radioButtonNotTolerant = new RadioButton();
             radioButtonTolerant = new RadioButton();
             groupBoxLeashReactivityLevel = new GroupBox();
             radioButtonFearful = new RadioButton();
@@ -49,13 +51,11 @@
             radioButtonUndefined = new RadioButton();
             numericUpDownDailyWalks = new NumericUpDown();
             groupBoxBondingCompatible = new GroupBox();
+            radioButtonNotBondingCompatible = new RadioButton();
             radioButtonBondingCompatible = new RadioButton();
             groupBoxDentalStatus = new GroupBox();
-            radioButtonDentalStatusNormal = new RadioButton();
             radioButtonDentalStatusMacclusion = new RadioButton();
-            radioButtonNotBondingCompatible = new RadioButton();
-            radioButtonHasNoPhobia = new RadioButton();
-            radioButtonNotGroomingTolerant = new RadioButton();
+            radioButtonDentalStatusNormal = new RadioButton();
             ((System.ComponentModel.ISupportInitialize)dataGridViewPets).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownSelectAge).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDownSelectWeight).BeginInit();
@@ -163,6 +163,17 @@
             groupBoxSelectPhobia.Text = "наличие клаустрофобии";
             groupBoxSelectPhobia.Enter += groupBoxSelectPhobia_Enter;
             // 
+            // radioButtonHasNoPhobia
+            // 
+            radioButtonHasNoPhobia.AutoSize = true;
+            radioButtonHasNoPhobia.Location = new Point(21, 85);
+            radioButtonHasNoPhobia.Name = "radioButtonHasNoPhobia";
+            radioButtonHasNoPhobia.Size = new Size(47, 24);
+            radioButtonHasNoPhobia.TabIndex = 1;
+            radioButtonHasNoPhobia.TabStop = true;
+            radioButtonHasNoPhobia.Text = "no";
+            radioButtonHasNoPhobia.UseVisualStyleBackColor = true;
+            // 
             // radioButtonHasPhobia
             // 
             radioButtonHasPhobia.AutoSize = true;
@@ -181,11 +192,12 @@
             numericUpDownHumanInteractionScore.Name = "numericUpDownHumanInteractionScore";
             numericUpDownHumanInteractionScore.Size = new Size(74, 27);
             numericUpDownHumanInteractionScore.TabIndex = 8;
+            numericUpDownHumanInteractionScore.ValueChanged += numericUpDownHumanInteractionScore_ValueChanged;
             // 
             // groupBoxGroomingTolerant
             // 
             groupBoxGroomingTolerant.BackColor = Color.Fuchsia;
-            groupBoxGroomingTolerant.Controls.Add(radioButtonNotGroomingTolerant);
+            groupBoxGroomingTolerant.Controls.Add(radioButtonNotTolerant);
             groupBoxGroomingTolerant.Controls.Add(radioButtonTolerant);
             groupBoxGroomingTolerant.Location = new Point(125, 469);
             groupBoxGroomingTolerant.Name = "groupBoxGroomingTolerant";
@@ -193,6 +205,18 @@
             groupBoxGroomingTolerant.TabIndex = 9;
             groupBoxGroomingTolerant.TabStop = false;
             groupBoxGroomingTolerant.Text = "груминг толерант?";
+            groupBoxGroomingTolerant.Enter += groupBoxGroomingTolerant_Enter;
+            // 
+            // radioButtonNotTolerant
+            // 
+            radioButtonNotTolerant.AutoSize = true;
+            radioButtonNotTolerant.Location = new Point(7, 71);
+            radioButtonNotTolerant.Name = "radioButtonNotTolerant";
+            radioButtonNotTolerant.Size = new Size(47, 24);
+            radioButtonNotTolerant.TabIndex = 1;
+            radioButtonNotTolerant.TabStop = true;
+            radioButtonNotTolerant.Text = "no";
+            radioButtonNotTolerant.UseVisualStyleBackColor = true;
             // 
             // radioButtonTolerant
             // 
@@ -219,6 +243,7 @@
             groupBoxLeashReactivityLevel.TabIndex = 10;
             groupBoxLeashReactivityLevel.TabStop = false;
             groupBoxLeashReactivityLevel.Text = "LeashReactivityLevel";
+            groupBoxLeashReactivityLevel.Enter += groupBoxLeashReactivityLevel_Enter;
             // 
             // radioButtonFearful
             // 
@@ -252,7 +277,6 @@
             radioButtonPulls.TabStop = true;
             radioButtonPulls.Text = "Pulls";
             radioButtonPulls.UseVisualStyleBackColor = true;
-            radioButtonPulls.CheckedChanged += radioButton3_CheckedChanged;
             // 
             // radioButtonCalm
             // 
@@ -264,7 +288,6 @@
             radioButtonCalm.TabStop = true;
             radioButtonCalm.Text = "Calm";
             radioButtonCalm.UseVisualStyleBackColor = true;
-            radioButtonCalm.CheckedChanged += radioButton2_CheckedChanged;
             // 
             // radioButtonUndefined
             // 
@@ -297,6 +320,17 @@
             groupBoxBondingCompatible.TabStop = false;
             groupBoxBondingCompatible.Text = "BondingCompatible";
             // 
+            // radioButtonNotBondingCompatible
+            // 
+            radioButtonNotBondingCompatible.AutoSize = true;
+            radioButtonNotBondingCompatible.Location = new Point(36, 75);
+            radioButtonNotBondingCompatible.Name = "radioButtonNotBondingCompatible";
+            radioButtonNotBondingCompatible.Size = new Size(47, 24);
+            radioButtonNotBondingCompatible.TabIndex = 1;
+            radioButtonNotBondingCompatible.TabStop = true;
+            radioButtonNotBondingCompatible.Text = "no";
+            radioButtonNotBondingCompatible.UseVisualStyleBackColor = true;
+            // 
             // radioButtonBondingCompatible
             // 
             radioButtonBondingCompatible.AutoSize = true;
@@ -320,17 +354,6 @@
             groupBoxDentalStatus.TabStop = false;
             groupBoxDentalStatus.Text = "DentalStatus";
             // 
-            // radioButtonDentalStatusNormal
-            // 
-            radioButtonDentalStatusNormal.AutoSize = true;
-            radioButtonDentalStatusNormal.Location = new Point(21, 30);
-            radioButtonDentalStatusNormal.Name = "radioButtonDentalStatusNormal";
-            radioButtonDentalStatusNormal.Size = new Size(80, 24);
-            radioButtonDentalStatusNormal.TabIndex = 0;
-            radioButtonDentalStatusNormal.TabStop = true;
-            radioButtonDentalStatusNormal.Text = "Normal";
-            radioButtonDentalStatusNormal.UseVisualStyleBackColor = true;
-            // 
             // radioButtonDentalStatusMacclusion
             // 
             radioButtonDentalStatusMacclusion.AutoSize = true;
@@ -342,38 +365,16 @@
             radioButtonDentalStatusMacclusion.Text = "Macclusion";
             radioButtonDentalStatusMacclusion.UseVisualStyleBackColor = true;
             // 
-            // radioButtonNotBondingCompatible
+            // radioButtonDentalStatusNormal
             // 
-            radioButtonNotBondingCompatible.AutoSize = true;
-            radioButtonNotBondingCompatible.Location = new Point(36, 75);
-            radioButtonNotBondingCompatible.Name = "radioButtonNotBondingCompatible";
-            radioButtonNotBondingCompatible.Size = new Size(47, 24);
-            radioButtonNotBondingCompatible.TabIndex = 1;
-            radioButtonNotBondingCompatible.TabStop = true;
-            radioButtonNotBondingCompatible.Text = "no";
-            radioButtonNotBondingCompatible.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonHasNoPhobia
-            // 
-            radioButtonHasNoPhobia.AutoSize = true;
-            radioButtonHasNoPhobia.Location = new Point(21, 85);
-            radioButtonHasNoPhobia.Name = "radioButtonHasNoPhobia";
-            radioButtonHasNoPhobia.Size = new Size(47, 24);
-            radioButtonHasNoPhobia.TabIndex = 1;
-            radioButtonHasNoPhobia.TabStop = true;
-            radioButtonHasNoPhobia.Text = "no";
-            radioButtonHasNoPhobia.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonNotGroomingTolerant
-            // 
-            radioButtonNotGroomingTolerant.AutoSize = true;
-            radioButtonNotGroomingTolerant.Location = new Point(7, 71);
-            radioButtonNotGroomingTolerant.Name = "radioButtonNotGroomingTolerant";
-            radioButtonNotGroomingTolerant.Size = new Size(47, 24);
-            radioButtonNotGroomingTolerant.TabIndex = 1;
-            radioButtonNotGroomingTolerant.TabStop = true;
-            radioButtonNotGroomingTolerant.Text = "no";
-            radioButtonNotGroomingTolerant.UseVisualStyleBackColor = true;
+            radioButtonDentalStatusNormal.AutoSize = true;
+            radioButtonDentalStatusNormal.Location = new Point(21, 30);
+            radioButtonDentalStatusNormal.Name = "radioButtonDentalStatusNormal";
+            radioButtonDentalStatusNormal.Size = new Size(80, 24);
+            radioButtonDentalStatusNormal.TabIndex = 0;
+            radioButtonDentalStatusNormal.TabStop = true;
+            radioButtonDentalStatusNormal.Text = "Normal";
+            radioButtonDentalStatusNormal.UseVisualStyleBackColor = true;
             // 
             // Pets
             // 
@@ -444,7 +445,7 @@
         private RadioButton radioButtonDentalStatusNormal;
         private RadioButton radioButtonDentalStatusMacclusion;
         private RadioButton radioButtonHasNoPhobia;
-        private RadioButton radioButtonNotGroomingTolerant;
+        private RadioButton radioButtonNotTolerant;
         private RadioButton radioButtonNotBondingCompatible;
         //private RadioButton radioButton1;
     }

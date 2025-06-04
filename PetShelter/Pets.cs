@@ -20,6 +20,10 @@ namespace PetShelter
         private int AgeForPet { get; set; }
         private int WeigthForPet { get; set; }
         private bool PhobiaForPet { get; set; }
+        //Cat
+        private int InteractionScoreForCat { get; set; }
+        private bool TolerantGroomingForCar { get; set; }
+
         public Pets(IFilter filterable, Type type, int claustrophobic)
 
         {
@@ -55,7 +59,7 @@ namespace PetShelter
             //фобия
             groupBoxSelectPhobia.Visible = isVisible;
 
-            
+
         }
 
         private void comboBoxSelectType_SelectedIndexChanged(object sender, EventArgs e)
@@ -66,7 +70,7 @@ namespace PetShelter
             bool visibleForDog = TypeForPet == typeof(Dog);
             bool visibleForRabbit = TypeForPet == typeof(Rabbit);
 
-                //Cat
+            //Cat
             //HumanInteractionScore 
             numericUpDownHumanInteractionScore.Visible = visibleForCat;
             numericUpDownHumanInteractionScore.Minimum = 0;
@@ -77,7 +81,7 @@ namespace PetShelter
             //GroomingTolerant
             groupBoxGroomingTolerant.Visible = visibleForCat;
 
-                //Dog
+            //Dog
             //LeashReactivityLevel
             groupBoxLeashReactivityLevel.Visible = visibleForDog;
             //DailyWalks
@@ -86,18 +90,18 @@ namespace PetShelter
             numericUpDownDailyWalks.Maximum = 10;
             numericUpDownDailyWalks.DecimalPlaces = 0;
 
-                //Rabbit
+            //Rabbit
             //BondingCompatible
             groupBoxBondingCompatible.Visible = visibleForRabbit;
             groupBoxDentalStatus.Visible = visibleForRabbit;
             //DentalStatus
         }
+
+        //for pet
         private void textBoxEnterName_TextChanged(object sender, EventArgs e)
         {
             NameForPet = textBoxEnterName.Text;
         }
-
-
         private void numericUpDownSelectAge_ValueChanged(object sender, EventArgs e)
         {
             AgeForPet = (int)numericUpDownSelectAge.Value;
@@ -116,32 +120,57 @@ namespace PetShelter
                 GenderForPet = gender.Female;
             //обработать
         }
-
         private void groupBoxSelectPhobia_Enter(object sender, EventArgs e)
         {
             if (radioButtonHasPhobia.Checked)
                 PhobiaForPet = true;
             else PhobiaForPet = false;
         }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        //for cat
+        private void numericUpDownHumanInteractionScore_ValueChanged(object sender, EventArgs e)
         {
-
+            InteractionScoreForCat = (int)numericUpDownHumanInteractionScore.Value;
+        }
+        private void groupBoxGroomingTolerant_Enter(object sender, EventArgs e)
+        {
+            radioButtonTolerant.CheckedChanged += RadioButtonCheckedChanged_GroomingTolersnt;
+            radioButtonNotTolerant.CheckedChanged += RadioButtonCheckedChanged_GroomingTolersnt;
+        }
+        private void RadioButtonCheckedChanged_GroomingTolersnt(object sender, EventArgs e)
+        {
+            var selectedRB = sender as RadioButton;
+            if (selectedRB != null && selectedRB.Checked)
+                TolerantGroomingForCar = selectedRB.Text == "yes";
+        }
+        //for dog
+        private void groupBoxLeashReactivityLevel_Enter(object sender, EventArgs e)
+        {
+            
         }
 
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+
+        //private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        //{
+
+        //}
+
+        //private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        //{
+
+        //}
+
+        private void Send(IFilter filterable, Type type, int claustrophobic)
         {
-
-        }
-
-        private void Send(IFilter filterable, Type type, int claustrophobic) { 
-            if(claustrophobic == -1)
+            if (claustrophobic == -1)
             {
                 SelectedPets = filterable.Filter(type);
-            } else
+            }
+            else
             {
                 SelectedPets = filterable.Filter(type, claustrophobic != 0);
             }
         }
+
+        
     }
 }
