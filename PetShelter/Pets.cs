@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace PetShelter
 {
@@ -20,6 +21,16 @@ namespace PetShelter
         private int AgeForPet { get; set; }
         private int WeigthForPet { get; set; }
         private bool PhobiaForPet { get; set; }
+        //Cat
+        private int InteractionScoreForCat { get; set; }
+        private bool TolerantGroomingForCar { get; set; }
+        //Dog
+        private leashReactivityLevel LeashReactivityLevelForDog { get; set; }
+        private int DailyWalkForDog { get; set; }
+        //Rabbit
+        private bool BondingCompatibleForRabbit { get; set; }
+        private dentalStatus DentalStatusForRabbit { get; set; }
+
         public Pets(IFilter filterable, Type type, int claustrophobic)
 
         {
@@ -55,7 +66,7 @@ namespace PetShelter
             //фобия
             groupBoxSelectPhobia.Visible = isVisible;
 
-            
+
         }
 
         private void comboBoxSelectType_SelectedIndexChanged(object sender, EventArgs e)
@@ -66,7 +77,7 @@ namespace PetShelter
             bool visibleForDog = TypeForPet == typeof(Dog);
             bool visibleForRabbit = TypeForPet == typeof(Rabbit);
 
-                //Cat
+            //Cat
             //HumanInteractionScore 
             numericUpDownHumanInteractionScore.Visible = visibleForCat;
             numericUpDownHumanInteractionScore.Minimum = 0;
@@ -77,7 +88,7 @@ namespace PetShelter
             //GroomingTolerant
             groupBoxGroomingTolerant.Visible = visibleForCat;
 
-                //Dog
+            //Dog
             //LeashReactivityLevel
             groupBoxLeashReactivityLevel.Visible = visibleForDog;
             //DailyWalks
@@ -86,62 +97,139 @@ namespace PetShelter
             numericUpDownDailyWalks.Maximum = 10;
             numericUpDownDailyWalks.DecimalPlaces = 0;
 
-                //Rabbit
+            //Rabbit
             //BondingCompatible
             groupBoxBondingCompatible.Visible = visibleForRabbit;
             groupBoxDentalStatus.Visible = visibleForRabbit;
             //DentalStatus
         }
+        private void buttonAddPet_Click(object sender, EventArgs e)
+        {
+            if (TypeForPet == null)
+                MessageBox.Show(":(( ");
+
+            //RadioButton selected = group.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
+
+            //if (selected == null)
+            //{
+            //    MessageBox.Show("Сделайте выбор!");
+            //    return;
+            //}
+        }
+        //for pet
         private void textBoxEnterName_TextChanged(object sender, EventArgs e)
         {
             NameForPet = textBoxEnterName.Text;
         }
-
-
         private void numericUpDownSelectAge_ValueChanged(object sender, EventArgs e)
         {
             AgeForPet = (int)numericUpDownSelectAge.Value;
         }
-
         private void numericUpDownSelectWeight_ValueChanged(object sender, EventArgs e)
         {
             WeigthForPet = (int)numericUpDownSelectWeight.Value;
         }
-
         private void groupBoxSelectDender_Enter(object sender, EventArgs e)
         {
             if (radioButtonSelectedGenderMale.Checked)
                 GenderForPet = gender.Male;
             if (radioButtonSelectedGenderFemale.Checked)
                 GenderForPet = gender.Female;
-            //обработать
         }
-
         private void groupBoxSelectPhobia_Enter(object sender, EventArgs e)
         {
             if (radioButtonHasPhobia.Checked)
                 PhobiaForPet = true;
             else PhobiaForPet = false;
         }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        //for cat
+        private void numericUpDownHumanInteractionScore_ValueChanged(object sender, EventArgs e)
         {
-
+            InteractionScoreForCat = (int)numericUpDownHumanInteractionScore.Value;
         }
-
-        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        private void groupBoxGroomingTolerant_Enter(object sender, EventArgs e)
         {
-
+            radioButtonTolerant.CheckedChanged += RadioButtonCheckedChanged_GroomingTolersnt;
+            radioButtonNotTolerant.CheckedChanged += RadioButtonCheckedChanged_GroomingTolersnt;
         }
+        private void RadioButtonCheckedChanged_GroomingTolersnt(object sender, EventArgs e)
+        {
+            var selectedRB = sender as RadioButton;
+            if (selectedRB != null && selectedRB.Checked)
+                TolerantGroomingForCar = selectedRB.Text == "yes";
+        }
+        //for dog
+        private void groupBoxLeashReactivityLevel_Enter(object sender, EventArgs e)
+        {
+            radioButtonUndefined.CheckedChanged += RadioButtonCheckedChanged_LeashReactivityLevel;
+            radioButtonCalm.CheckedChanged += RadioButtonCheckedChanged_LeashReactivityLevel;
+            radioButtonPulls.CheckedChanged += RadioButtonCheckedChanged_LeashReactivityLevel;
+            radioButtonAggressiveToOtherDogs.CheckedChanged += RadioButtonCheckedChanged_LeashReactivityLevel;
+            radioButtonFearful.CheckedChanged += RadioButtonCheckedChanged_LeashReactivityLevel;
+        }
+        private void RadioButtonCheckedChanged_LeashReactivityLevel(object sender, EventArgs e)
+        {
+            var selectedRB = sender as RadioButton;
+            if (selectedRB != null && selectedRB.Checked)
+            {
+                if (selectedRB.Text == "Undefined")
+                    LeashReactivityLevelForDog = leashReactivityLevel.Undefined;
+                else if (selectedRB.Text == "Calm")
+                    LeashReactivityLevelForDog = leashReactivityLevel.Calm;
+                else if (selectedRB.Text == "Pulls")
+                    LeashReactivityLevelForDog = leashReactivityLevel.Pulls;
+                else if (selectedRB.Text == "AggressiveToOtherDogs")
+                    LeashReactivityLevelForDog = leashReactivityLevel.AggressiveToOtherDogs;
+                else if (selectedRB.Text == "Fearful")
+                    LeashReactivityLevelForDog = leashReactivityLevel.Fearful;
+            }
+        }
+        private void numericUpDownDailyWalks_ValueChanged(object sender, EventArgs e)
+        {
+            DailyWalkForDog = (int)numericUpDownDailyWalks.Value;
+        }
+        //for rabbit
+        private void groupBoxBondingCompatible_Enter(object sender, EventArgs e)
+        {
+            radioButtonBondingCompatible.CheckedChanged += RadioButtonCheckedChanged_BondingCompatible;
+            radioButtonNotBondingCompatible.CheckedChanged += RadioButtonCheckedChanged_BondingCompatible;
+        }
+        private void RadioButtonCheckedChanged_BondingCompatible(object sender, EventArgs e)
+        {
+            var selectedRB = sender as RadioButton;
+            if (selectedRB != null && selectedRB.Checked)
+                BondingCompatibleForRabbit = selectedRB.Text == "yes";
+        }
+        private void groupBoxDentalStatus_Enter(object sender, EventArgs e)
+        {
+            radioButtonDentalStatusMacclusion.CheckedChanged += RadioButtonCheckedChanged_DentalStatus;
+            radioButtonDentalStatusNormal.CheckedChanged += RadioButtonCheckedChanged_DentalStatus;
+        }
+        private void RadioButtonCheckedChanged_DentalStatus(object sender, EventArgs e)
+        {
+            var selectedRB = sender as RadioButton;
+            if (selectedRB != null && selectedRB.Checked)
+            {
+                if (selectedRB.Text == "Macclusion")
+                    DentalStatusForRabbit = dentalStatus.Macclusion;
+                else if (selectedRB.Text == "Normal")
+                    DentalStatusForRabbit = dentalStatus.Normal;
 
-        private void Send(IFilter filterable, Type type, int claustrophobic) { 
-            if(claustrophobic == -1)
+            }
+        }
+        //
+        private void Send(IFilter filterable, Type type, int claustrophobic)
+        {
+            if (claustrophobic == -1)
             {
                 SelectedPets = filterable.Filter(type);
-            } else
+            }
+            else
             {
                 SelectedPets = filterable.Filter(type, claustrophobic != 0);
             }
         }
+
+        
     }
 }
