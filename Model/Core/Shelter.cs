@@ -23,6 +23,8 @@ namespace Model.Core
             Pets = new Pet[0];
         }
 
+        public override string ToString() => Name;
+
         public int Count()
         {
             return Pets.Length;
@@ -58,6 +60,8 @@ namespace Model.Core
 
         public Pet[] Filter(Type type)
         {
+            if(type == typeof(Pet)) return Pets;
+
             var filtered = new Pet[Count(type)];
             Filter(pet => pet.GetType() == type, Pets, ref filtered);
             return filtered;
