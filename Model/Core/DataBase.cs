@@ -128,13 +128,13 @@ namespace Model.Core
             var filtered = new Pet[countType];
             Filter(pet => pet.GetType().IsAssignableTo(type), Homeless, ref filtered);
 
-            int inShelerCount = 0;
+            int inShelterCount = 0;
             foreach(var shelter in Shelters)
             {
-                inShelerCount += shelter.Count(type);
+                inShelterCount += shelter.Count(type);
             }
 
-            int index = countType - inShelerCount;
+            int index = countType - inShelterCount;
             foreach (var shelter in Shelters)
             {
                 var current = shelter.Filter(type);
@@ -148,7 +148,7 @@ namespace Model.Core
         {
             var sameType = Filter(type);
             var filtered = new Pet[HasPhobiaCount(sameType, hasPhobia)];
-            Filter(pet => pet.HasClaustrophobia, sameType, ref filtered);
+            Filter(pet => pet.HasClaustrophobia == hasPhobia, sameType, ref filtered);
             return filtered;
         }
 
