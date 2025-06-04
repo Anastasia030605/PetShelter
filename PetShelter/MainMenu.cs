@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace PetShelter
 {
@@ -16,6 +17,9 @@ namespace PetShelter
         private DataBase DataBase { get; set; }
         private Shelter SelectedShelter { get; set; }
         private Type SelectedPetType { get; set; }
+        private int SelectedClaustrophobic { get; set; }
+        private int SelectedOpenSpace { get; set; }
+
 
         public MainMenu(DataBase database)
         {
@@ -30,6 +34,30 @@ namespace PetShelter
             comboBoxPetType.DataSource = new Type[] { typeof(Cat), typeof(Dog), typeof(Rabbit) };
             comboBoxPetType.DisplayMember = "Name";
             comboBoxPetType.SelectedIndex = -1;
+
+            comboBoxOpenSpace.DataSource = new[]
+            {
+            new { Name = "Не выбрано",  Value = -1 },
+            new { Name = "Нет", Value = 0 },
+            new { Name = "Есть", Value = 1 }
+            };
+
+            SelectedOpenSpace = -1;
+            comboBoxOpenSpace.SelectedIndex = 0;
+            comboBoxOpenSpace.DisplayMember = "Name";
+            comboBoxOpenSpace.ValueMember = "Value";
+
+            comboBoxClaustrophobiaFilter.DataSource = new[]
+            {
+            new { Name = "Не выбрано", Value = -1 },
+            new { Name = "Нет", Value = 0 },
+            new { Name = "Есть", Value = 1 }
+            };
+
+            SelectedClaustrophobic = -1;
+            comboBoxClaustrophobiaFilter.SelectedIndex = 0;
+            comboBoxClaustrophobiaFilter.DisplayMember = "Name";
+            comboBoxClaustrophobiaFilter.ValueMember = "Value";
         }
 
         private void comboBoxShelters_SelectedIndexChanged(object sender, EventArgs e)
@@ -45,10 +73,31 @@ namespace PetShelter
         private void buttonShowPets_Click(object sender, EventArgs e)
         {
             Pets petswindow;
-            if(SelectedShelter == null) 
-                petswindow = new Pets(DataBase, SelectedPetType);
-            else petswindow = new Pets(SelectedShelter, SelectedPetType);
+            if (SelectedShelter == null)
+                petswindow = new Pets(DataBase, SelectedPetType, SelectedClaustrophobic);
+            else petswindow = new Pets(SelectedShelter, SelectedPetType, SelectedClaustrophobic);
             petswindow.ShowDialog();
+        }
+
+        private void comboBoxOpenSpace_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectedOpenSpace = (int)comboBoxOpenSpace.SelectedValue;
+            switch (SelectedOpenSpace) {
+                case 0:
+                    comboBoxShelters.DataSource = DataBase.Shelters.Where(shelter => !shelter.HasOpenArea).ToArray();
+                    break;
+                case 1:
+                    comboBoxShelters.DataSource = DataBase.Shelters.Where(shelter => shelter.HasOpenArea).ToArray(); 
+                    break;
+                case -1:
+                    comboBoxShelters.DataSource = DataBase.Shelters;
+                    break;
+            }
+        }
+
+        private void comboBoxClaustrophobiaFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectedClaustrophobic = (int)comboBoxClaustrophobiaFilter.SelectedValue;
         }
     }
 }

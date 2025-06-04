@@ -14,21 +14,19 @@ namespace PetShelter
     public partial class Pets : Form
     {
         private Model.Core.Pet[] SelectedPets { get; set; }
-
         private Type TypeForPet { get; set; }
         private string NameForPet { get; set; }
         private gender GenderForPet { get; set; }
         private int AgeForPet { get; set; }
         private int WeigthForPet { get; set; }
         private bool PhobiaForPet { get; set; }
-        public Pets(IFilter filterable, Type type)
+        public Pets(IFilter filterable, Type type, int claustrophobic)
+
         {
             InitializeComponent();
 
-            if (type != null)
-                SelectedPets = filterable.Filter(type);
-            else
-                SelectedPets = filterable.Filter(typeof(Pet));
+            Send(filterable, type ?? typeof(Pet), claustrophobic);
+
             dataGridViewPets.DataSource = SelectedPets;
 
             dataGridViewPets.AutoGenerateColumns = true;
@@ -134,6 +132,16 @@ namespace PetShelter
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void Send(IFilter filterable, Type type, int claustrophobic) { 
+            if(claustrophobic == -1)
+            {
+                SelectedPets = filterable.Filter(type);
+            } else
+            {
+                SelectedPets = filterable.Filter(type, claustrophobic != 0);
+            }
         }
     }
 }

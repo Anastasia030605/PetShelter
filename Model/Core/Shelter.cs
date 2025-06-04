@@ -74,7 +74,7 @@ namespace Model.Core
 
             var sameType = Filter(type);
             var filtered = new Pet[HasPhobiaCount(sameType, hasPhobia)];
-            Filter(pet => pet.HasClaustrophobia, sameType, ref filtered);
+            Filter(pet => pet.HasClaustrophobia == hasPhobia, sameType, ref filtered);
             return filtered;
         }
 
