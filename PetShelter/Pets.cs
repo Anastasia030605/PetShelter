@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +15,8 @@ namespace PetShelter
 {
     public partial class Pets : Form
     {
+        private IFilter _filterable;
+
         private Model.Core.Pet[] SelectedPets { get; set; }
         private Type TypeForPet { get; set; }
         private string NameForPet { get; set; }
@@ -35,6 +38,7 @@ namespace PetShelter
 
         {
             InitializeComponent();
+            _filterable = filterable;
 
             Send(filterable, type ?? typeof(Pet), claustrophobic);
 
@@ -56,12 +60,12 @@ namespace PetShelter
             groupBoxSelectDender.Visible = isVisible;
             //возраст
             numericUpDownSelectAge.Visible = isVisible;
-            numericUpDownSelectAge.Minimum = 0;
+            numericUpDownSelectAge.Minimum = 1;
             numericUpDownSelectAge.Increment = 1;
             numericUpDownSelectAge.DecimalPlaces = 0;
             //вес
             numericUpDownSelectWeight.Visible = isVisible;
-            numericUpDownSelectWeight.Minimum = 0;
+            numericUpDownSelectWeight.Minimum = 1;
             numericUpDownSelectWeight.Increment = 1;
             numericUpDownSelectWeight.DecimalPlaces = 0;
             //фобия
@@ -81,7 +85,7 @@ namespace PetShelter
             //Cat
             //HumanInteractionScore 
             numericUpDownHumanInteractionScore.Visible = visibleForCat;
-            numericUpDownHumanInteractionScore.Minimum = 0;
+            numericUpDownHumanInteractionScore.Minimum = 1;
             numericUpDownHumanInteractionScore.Maximum = 5;
             numericUpDownHumanInteractionScore.Increment = 1;
             numericUpDownHumanInteractionScore.DecimalPlaces = 0;
@@ -106,16 +110,107 @@ namespace PetShelter
         }
         private void buttonAddPet_Click(object sender, EventArgs e)
         {
+            if (!BaseFieldsCheck()) return;
+            var shelter = _filterable as Shelter;
+            Pet pet;
+            if (TypeForPet == typeof(Cat))
+            {
+                if (!CatFieldsCheck()) return;
+                pet = new Cat(NameForPet, GenderForPet, AgeForPet, WeigthForPet, true, InteractionScoreForCat, TolerantGroomingForCar, PhobiaForPet);
+
+            }
+            else if (TypeForPet == typeof(Dog))
+            {
+                if (!DogFieldCheck()) return;
+                pet = new Dog(NameForPet, GenderForPet, AgeForPet, WeigthForPet, true, LeashReactivityLevelForDog, DailyWalkForDog, PhobiaForPet);
+
+            }
+            else if (TypeForPet == typeof(Rabbit))
+            {
+                if (!RabbitFieldsCheck()) return;
+                pet = new Rabbit(NameForPet, GenderForPet, AgeForPet, WeigthForPet, true, BondingCompatibleForRabbit, DentalStatusForRabbit, PhobiaForPet);
+            }
+            else return;
+            shelter.Add(pet);
+            //this.Refresh(); оно не работает
+        }
+        private bool BaseFieldsCheck()
+        {
             if (TypeForPet == null)
-                MessageBox.Show(":(( ");
-
-            //RadioButton selected = group.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked);
-
-            //if (selected == null)
-            //{
-            //    MessageBox.Show("Сделайте выбор!");
-            //    return;
-            //}
+            {
+                MessageBox.Show("выберите тип питомца");
+                return false;
+            }
+            if (String.IsNullOrWhiteSpace(NameForPet))
+            {
+                MessageBox.Show("дайте имя питомцу");
+                return false;
+            }
+            System.Windows.Forms.RadioButton selected = groupBoxSelectDender.Controls.OfType<System.Windows.Forms.RadioButton>().FirstOrDefault(r => r.Checked);
+            if (selected == null)
+            {
+                MessageBox.Show("укажите пол питомца");
+                return false;
+            }
+            selected = groupBoxSelectPhobia.Controls.OfType<System.Windows.Forms.RadioButton>().FirstOrDefault(r => r.Checked);
+            if (selected == null)
+            {
+                MessageBox.Show("укажите наличие фобии");
+                return false;
+            }
+            if (AgeForPet == 0)
+            {
+                MessageBox.Show("укажите возраст питомца");
+                return false;
+            }
+            if (WeigthForPet == 0)
+            {
+                MessageBox.Show("укажите вес питомца");
+                return false;
+            }
+            return true;
+        }
+        private bool CatFieldsCheck()
+        {
+            if (InteractionScoreForCat == 0)
+            {
+                MessageBox.Show("укажите HumanInteractionScore");
+                return false;
+            }
+            var selected = groupBoxGroomingTolerant.Controls.OfType<System.Windows.Forms.RadioButton>().FirstOrDefault(r => r.Checked);
+            if (selected == null)
+            {
+                MessageBox.Show("груминг толерант?");
+                return false;
+            }
+            return true;
+        }
+        private bool DogFieldCheck()
+        {
+            var selected = groupBoxLeashReactivityLevel.Controls.OfType<System.Windows.Forms.RadioButton>().FirstOrDefault(r => r.Checked);
+            if (selected == null)
+            {
+                MessageBox.Show("укажите LeashReactivityLevel");
+                return false;
+            }
+            //проверка DailyWalks ???
+            return true;
+        }
+        private bool RabbitFieldsCheck()
+        {
+            var selected = groupBoxBondingCompatible.Controls.OfType<System.Windows.Forms.RadioButton>().FirstOrDefault(r => r.Checked);
+            if(selected == null)
+            {
+                MessageBox.Show("укажите BondingCompatible");
+                return false;
+            }
+            selected = groupBoxDentalStatus.Controls.OfType<System.Windows.Forms.RadioButton>().FirstOrDefault(r => r.Checked);
+            if (selected == null)
+            {
+                MessageBox.Show("укажите DentalStatus");
+                return false;
+            }
+            return true;
         }
         //for pet
         private void textBoxEnterName_TextChanged(object sender, EventArgs e)
