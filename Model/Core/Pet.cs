@@ -39,7 +39,7 @@ namespace Model.Core
             if (base.Equals(obj)) return true;
             if (obj is not Pet pet) return false;
             if (pet.GetType() == this.GetType() && pet.Name == this.Name &&
-                pet.Age == this.Age && pet.Weigth == this.Weigth)
+                pet.Age == this.Age && pet.Weigth == this.Weigth && pet.Gender == this.Gender)
                 return true;
             return false;
         }

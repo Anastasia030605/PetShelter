@@ -22,8 +22,11 @@ namespace PetShelter
             InitializeComponent();
             DataBase = database;
 
+            textBoxSelectShelter.ReadOnly = true;
             comboBoxShelters.DataSource = DataBase.Shelters;
             comboBoxShelters.SelectedIndex = -1;
+
+            textBoxSelectPetType.ReadOnly = true;
             comboBoxPetType.DataSource = new Type[] { typeof(Cat), typeof(Dog), typeof(Rabbit) };
             comboBoxPetType.DisplayMember = "Name";
             comboBoxPetType.SelectedIndex = -1;
