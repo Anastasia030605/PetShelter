@@ -67,6 +67,10 @@ namespace PetShelter
             comboBoxSelectExtention.SelectedIndex = 1;
         }
 
+        public bool Check(Pet pet)
+        {
+            return DataBase.Check(pet);
+        }
         public void RemovePet(Pet pet)
         {
             DataBase.RemoveFromDB(pet);

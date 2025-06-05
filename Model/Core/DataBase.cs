@@ -52,14 +52,14 @@ namespace Model.Core
             if (Homeless == null) Homeless = new Pet[0];
         }
 
-        public void Add(Pet pet)
+         public bool Check(Pet pet)
         {
-            if (pet == null || Homeless == null || pet.InShelter) return;
-
-            var newHomeless = new Pet[Homeless.Length + 1];
-            Array.Copy(Homeless, newHomeless, Homeless.Length);
-            newHomeless[newHomeless.Length] = pet;
-            Homeless = newHomeless;
+            if (pet == null || Homeless == null) return true;
+            foreach(var shelter in Shelters)
+            {
+                if (shelter.Pets.Contains(pet)) return true;
+            }
+            return Homeless.Contains(pet);
         }
         public void MoveTo(Pet pet, Shelter shelter)
         {
