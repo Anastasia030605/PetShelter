@@ -95,25 +95,12 @@ namespace Model.Core
     {
         public void Add(Pet pet)
         {
-            if (pet == null || Pets == null || Pets.Length == Capacity) return;
+            if (pet == null || HasPet(pet)) return;
+            if (Pets == null || Pets.Length == Capacity) return;
             pet.MoveToShelter();
             var newPets = new Pet[Pets.Length + 1];
             Array.Copy(Pets, newPets, Pets.Length);
             newPets[newPets.Length - 1] = pet;
-            Pets = newPets;
-            }
-
-        public void Add(Pet[] pets)
-        {
-            if(pets == null || Pets == null) return;
-            int numToAdd = pets.Length;
-            if(Pets.Length + numToAdd > Capacity)
-                numToAdd = Capacity - Pets.Length;
-            for(int k = 0; k < numToAdd; ++k)
-                pets[k].MoveToShelter();
-            var newPets = new Pet[Pets.Length + numToAdd];
-            Array.Copy(Pets, newPets, Pets.Length);
-            Array.Copy(pets, 0, newPets, Pets.Length, numToAdd);
             Pets = newPets;
         }
 
@@ -134,6 +121,15 @@ namespace Model.Core
             Array.Copy(Pets, newPets, place);
             Array.Copy(Pets, place + 1, newPets, place, newPets.Length - place);
             Pets = newPets;
+        }
+
+        public bool HasPet(Pet pet)
+        {
+            foreach(Pet p in Pets)
+            {
+                if( p.Equals(pet)) return true;
+            }
+            return false;
         }
     }
 }

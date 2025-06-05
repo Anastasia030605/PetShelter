@@ -54,6 +54,7 @@ namespace Model.Core
 
          public bool Check(Pet pet)
         {
+            if (pet == null || Homeless == null) return true;
             foreach(var shelter in Shelters)
             {
                 if (shelter.Pets.Contains(pet)) return true;
@@ -66,13 +67,6 @@ namespace Model.Core
 
             shelter.Add(pet);
         }
-        public void MoveTo(Pet[] pet, Shelter shelter) //повторы преследуют меня
-        {
-            if (pet == null || shelter == null) return;
-
-            shelter.Add(pet);
-        }
-        // ICountable
         public int Count()
         {
             int count = Homeless.Length;

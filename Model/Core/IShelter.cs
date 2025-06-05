@@ -22,7 +22,6 @@ namespace Model.Core
     public interface IChangeable
     {
         public void Add(Pet pet);
-        public void Add(Pet[] pets);
         public void Remove(Pet pet);
     }
     
