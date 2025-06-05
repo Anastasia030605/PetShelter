@@ -136,6 +136,17 @@ namespace PetShelter
                 pet = new Rabbit(NameForPet, GenderForPet, AgeForPet, WeigthForPet, true, BondingCompatibleForRabbit, DentalStatusForRabbit, PhobiaForPet);
             }
             else return;
+            MainMenu mainMenu = Application.OpenForms.OfType<MainMenu>().FirstOrDefault();
+            if (mainMenu == null)
+            {
+                 MessageBox.Show("Oops I did it again");
+                return;
+            }
+            if(mainMenu.Check(pet))
+            {
+                MessageBox.Show("Питомец уже есть в базе данных");
+                return;
+            }
             shelter.Add(pet);
             //обновить окно
             Send(shelter, _showType, _showFobia);
@@ -341,6 +352,7 @@ namespace PetShelter
             if(mainMenu == null)
             {
                 MessageBox.Show("Oops I did it again");
+                return;
             }
             mainMenu.RemovePet(pet);
             //update
