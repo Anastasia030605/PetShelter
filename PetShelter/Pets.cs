@@ -75,7 +75,8 @@ namespace PetShelter
             //фобия
             groupBoxSelectPhobia.Visible = isVisible;
 
-
+            //
+            buttonAddPet.Visible = isVisible;
         }
 
         private void comboBoxSelectType_SelectedIndexChanged(object sender, EventArgs e)
