@@ -15,7 +15,8 @@ namespace Model.Core
         public int Age { get; private set; }
         public int Weigth { get; private set; }
         public bool InShelter { get; private set; }
-    
+
+        [JsonConstructor]
         public Pet(string name, gender gender, int age, int weight, bool inShelter)
         {
             Name = name;

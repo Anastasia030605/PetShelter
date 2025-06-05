@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Model.Core
 {
@@ -42,6 +43,7 @@ namespace Model.Core
             Shelters[2].Add(new Dog("Молли", gender.Female, 5, 15, true, leashReactivityLevel.Pulls, 2, false));
         }
 
+        [JsonConstructor]
         public DataBase(Shelter[] shelters, Pet[] homeless)
         {
             Shelters = shelters;

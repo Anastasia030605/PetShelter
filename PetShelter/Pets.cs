@@ -16,6 +16,8 @@ namespace PetShelter
     public partial class Pets : Form
     {
         private IFilter _filterable;
+        private Type _showType;
+        private int _showFobia;
 
         private Model.Core.Pet[] SelectedPets { get; set; }
         private Type TypeForPet { get; set; }
@@ -39,6 +41,8 @@ namespace PetShelter
         {
             InitializeComponent();
             _filterable = filterable;
+            _showType = type;
+            _showFobia = claustrophobic;
 
             Send(filterable, type ?? typeof(Pet), claustrophobic);
 
@@ -71,7 +75,8 @@ namespace PetShelter
             //фобия
             groupBoxSelectPhobia.Visible = isVisible;
 
-
+            //
+            buttonAddPet.Visible = isVisible;
         }
 
         private void comboBoxSelectType_SelectedIndexChanged(object sender, EventArgs e)
@@ -132,7 +137,9 @@ namespace PetShelter
             }
             else return;
             shelter.Add(pet);
-            //this.Refresh(); оно не работает
+            //обновить окно
+            Send(shelter, _showType, _showFobia);
+            dataGridViewPets.DataSource = SelectedPets;
         }
         private bool BaseFieldsCheck()
         {
@@ -336,6 +343,13 @@ namespace PetShelter
                 MessageBox.Show("Oops I did it again");
             }
             mainMenu.RemovePet(pet);
+            //update
+            IFilter filterable;
+            if (mainMenu.SelectedShelterIndex == -1)
+                filterable = mainMenu.DataBase;
+            else filterable = mainMenu.DataBase.Shelters[mainMenu.SelectedShelterIndex];
+            Send(filterable, _showType, _showFobia);
+            dataGridViewPets.DataSource = SelectedPets;
         }
     }
 }

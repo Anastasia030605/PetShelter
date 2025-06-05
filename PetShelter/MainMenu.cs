@@ -16,8 +16,8 @@ namespace PetShelter
     public partial class MainMenu : Form
     {
         private Serializer SelectedSerializer { get; set; }
-        private DataBase DataBase { get; set; }
-        private int SelectedShelterIndex { get; set; }
+        public DataBase DataBase { get; private set; }
+        public int SelectedShelterIndex { get; private set; }
         private Type SelectedPetType { get; set; }
         private int SelectedClaustrophobic { get; set; }
         private int SelectedOpenSpace { get; set; }
@@ -85,6 +85,7 @@ namespace PetShelter
         private void buttonShowPets_Click(object sender, EventArgs e)
         {
             Pets petswindow;
+            if(comboBoxPetType.SelectedIndex == -1) SelectedPetType = typeof(Pet); 
             if (SelectedShelterIndex == -1)
                 petswindow = new Pets(DataBase, SelectedPetType, SelectedClaustrophobic);
             else petswindow = new Pets(DataBase.Shelters[SelectedShelterIndex], SelectedPetType, SelectedClaustrophobic);

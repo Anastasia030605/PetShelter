@@ -14,15 +14,23 @@ namespace Model.Core
         public override void Serialize<T>(T obj, string fileName)
         {
             SelectFile(fileName);
-            string json = JsonConvert.SerializeObject(obj);
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+            };
+            string json = JsonConvert.SerializeObject(obj, settings);
             File.WriteAllText(FilePath, json);
         }
 
         public override T Deserialize<T>(string filePath)
         {
             FilePath = filePath;
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Objects,
+            };
             string json = File.ReadAllText(FilePath);
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonConvert.DeserializeObject<T>(json, settings);
         }
     }
 }

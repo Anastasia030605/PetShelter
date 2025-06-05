@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model.Core
 {
+    [JsonObject]
     public partial class Shelter : ICountable, IFilter
     {
         public string Name { get; private set; } 
@@ -14,14 +15,15 @@ namespace Model.Core
         public bool HasOpenArea { get; private set; }
         public Pet[] Pets { get; private set; }
 
-        //[JsonConstructor]
-        public Shelter(string name,  int capacity, bool hasOpenArea) // bool hasOpenArea = false ?
+        [JsonConstructor]
+        public Shelter(string name,  int capacity, bool hasOpenArea, Pet[] pets = null) // bool hasOpenArea = false ?
         {
             Name = name;
             Capacity = capacity;
             HasOpenArea = hasOpenArea;
-            Pets = new Pet[0];
+            Pets = pets ?? new Pet[0];
         }
+
 
         public override string ToString() => Name;
 
