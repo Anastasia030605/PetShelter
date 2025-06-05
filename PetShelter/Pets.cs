@@ -63,11 +63,13 @@ namespace PetShelter
             //пол
             groupBoxSelectDender.Visible = isVisible;
             //возраст
+            textBoxEnterAge.Visible = isVisible;
             numericUpDownSelectAge.Visible = isVisible;
             numericUpDownSelectAge.Minimum = 1;
             numericUpDownSelectAge.Increment = 1;
             numericUpDownSelectAge.DecimalPlaces = 0;
             //вес
+            textBoxEnterWeight.Visible = isVisible;
             numericUpDownSelectWeight.Visible = isVisible;
             numericUpDownSelectWeight.Minimum = 1;
             numericUpDownSelectWeight.Increment = 1;
@@ -89,6 +91,7 @@ namespace PetShelter
 
             //Cat
             //HumanInteractionScore 
+            textBoxHumanScore.Visible = visibleForCat;
             numericUpDownHumanInteractionScore.Visible = visibleForCat;
             numericUpDownHumanInteractionScore.Minimum = 1;
             numericUpDownHumanInteractionScore.Maximum = 5;
@@ -102,6 +105,7 @@ namespace PetShelter
             //LeashReactivityLevel
             groupBoxLeashReactivityLevel.Visible = visibleForDog;
             //DailyWalks
+            textBoxDailyWalks.Visible = visibleForDog;
             numericUpDownDailyWalks.Visible = visibleForDog;
             numericUpDownDailyWalks.Minimum = 0;
             numericUpDownDailyWalks.Maximum = 10;
@@ -206,7 +210,7 @@ namespace PetShelter
         private bool RabbitFieldsCheck()
         {
             var selected = groupBoxBondingCompatible.Controls.OfType<System.Windows.Forms.RadioButton>().FirstOrDefault(r => r.Checked);
-            if(selected == null)
+            if (selected == null)
             {
                 MessageBox.Show("укажите BondingCompatible");
                 return false;
@@ -320,7 +324,7 @@ namespace PetShelter
 
             }
         }
-        
+
         private void Send(IFilter filterable, Type type, int claustrophobic)
         {
             if (claustrophobic == -1)
@@ -335,10 +339,10 @@ namespace PetShelter
 
         private void DeletePet_Click(object sender, EventArgs e)
         {
-            if(dataGridViewPets.SelectedRows.Count == 0) return;
+            if (dataGridViewPets.SelectedRows.Count == 0) return;
             Pet pet = (Pet)dataGridViewPets.SelectedRows[0].DataBoundItem;
             MainMenu mainMenu = Application.OpenForms.OfType<MainMenu>().FirstOrDefault();
-            if(mainMenu == null)
+            if (mainMenu == null)
             {
                 MessageBox.Show("Oops I did it again");
             }
@@ -350,6 +354,16 @@ namespace PetShelter
             else filterable = mainMenu.DataBase.Shelters[mainMenu.SelectedShelterIndex];
             Send(filterable, _showType, _showFobia);
             dataGridViewPets.DataSource = SelectedPets;
+        }
+
+        private void textBoxHumanScore_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButtonNotTolerant_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

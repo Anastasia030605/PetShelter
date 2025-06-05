@@ -67,13 +67,6 @@ namespace Model.Core
 
             shelter.Add(pet);
         }
-        //public void MoveTo(Pet[] pet, Shelter shelter) //повторы преследуют меня
-        //{
-        //    if (pet == null || shelter == null) return;
-
-        //    shelter.Add(pet);
-        //}
-        // ICountable
         public int Count()
         {
             int count = Homeless.Length;
