@@ -16,7 +16,6 @@ namespace Model.Core
         public int Weigth { get; private set; }
         public bool InShelter { get; private set; }
 
-        [JsonConstructor]
         public Pet(string name, gender gender, int age, int weight, bool inShelter)
         {
             Name = name;
@@ -55,6 +54,7 @@ namespace Model.Core
 
     public abstract partial class Pet
     {
+        [JsonProperty("HasClaustrophobia")]
         public bool HasClaustrophobia { get; protected set; }
 
         [JsonConstructor]

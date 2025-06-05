@@ -39,6 +39,7 @@
             comboBoxOpenSpace = new ComboBox();
             comboBoxSelectExtention = new ComboBox();
             buttonSerializer = new Button();
+            buttonConvert = new Button();
             ((System.ComponentModel.ISupportInitialize)dataBaseBindingSource).BeginInit();
             SuspendLayout();
             // 
@@ -118,7 +119,7 @@
             // 
             comboBoxSelectExtention.BackColor = Color.MediumPurple;
             comboBoxSelectExtention.FormattingEnabled = true;
-            comboBoxSelectExtention.Location = new Point(636, 80);
+            comboBoxSelectExtention.Location = new Point(307, 185);
             comboBoxSelectExtention.Name = "comboBoxSelectExtention";
             comboBoxSelectExtention.Size = new Size(196, 28);
             comboBoxSelectExtention.TabIndex = 7;
@@ -136,11 +137,23 @@
             buttonSerializer.UseVisualStyleBackColor = false;
             buttonSerializer.Click += buttonSerializer_Click;
             // 
+            // buttonConvert
+            // 
+            buttonConvert.BackColor = Color.SlateBlue;
+            buttonConvert.Location = new Point(105, 184);
+            buttonConvert.Name = "buttonConvert";
+            buttonConvert.Size = new Size(196, 29);
+            buttonConvert.TabIndex = 9;
+            buttonConvert.Text = "Convert All Files To";
+            buttonConvert.UseVisualStyleBackColor = false;
+            buttonConvert.Click += buttonConvert_Click;
+            // 
             // MainMenu
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(869, 504);
+            Controls.Add(buttonConvert);
             Controls.Add(buttonSerializer);
             Controls.Add(comboBoxSelectExtention);
             Controls.Add(comboBoxOpenSpace);
@@ -168,5 +181,6 @@
         private ComboBox comboBoxOpenSpace;
         private ComboBox comboBoxSelectExtention;
         private Button buttonSerializer;
+        private Button buttonConvert;
     }
 }

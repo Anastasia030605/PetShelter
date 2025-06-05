@@ -64,7 +64,7 @@ namespace PetShelter
             comboBoxClaustrophobiaFilter.SelectedIndex = 0;
 
             comboBoxSelectExtention.DataSource = new String[] { ".json", ".xml" };
-            comboBoxSelectExtention.SelectedIndex = 0;
+            comboBoxSelectExtention.SelectedIndex = 1;
         }
 
         public void RemovePet(Pet pet)
@@ -85,12 +85,12 @@ namespace PetShelter
         private void buttonShowPets_Click(object sender, EventArgs e)
         {
             Pets petswindow;
-            if(comboBoxPetType.SelectedIndex == -1) SelectedPetType = typeof(Pet); 
+            if (comboBoxPetType.SelectedIndex == -1) SelectedPetType = typeof(Pet);
             if (SelectedShelterIndex == -1)
                 petswindow = new Pets(DataBase, SelectedPetType, SelectedClaustrophobic);
             else petswindow = new Pets(DataBase.Shelters[SelectedShelterIndex], SelectedPetType, SelectedClaustrophobic);
             petswindow.ShowDialog();
-            
+
         }
 
         private void comboBoxOpenSpace_SelectedIndexChanged(object sender, EventArgs e)
@@ -126,7 +126,7 @@ namespace PetShelter
 
         private void buttonSerializer_Click(object sender, EventArgs e)
         {
-            if(SelectedSerializer == null)
+            if (SelectedSerializer == null)
             {
                 MessageBox.Show("Укажите расширение сохраняемого файла");
                 return;
@@ -137,6 +137,38 @@ namespace PetShelter
             fileName = fileName.Replace(':', '-');
             var database = new DataBase(DataBase.Shelters, DataBase.Homeless);
             SelectedSerializer.Serialize<DataBase>(database, fileName);
+        }
+
+        private void buttonConvert_Click(object sender, EventArgs e)
+        {
+            Serializer serializerFrom;
+            string anotherExtention;
+            var extention = comboBoxSelectExtention.SelectedItem as String;
+            if (extention == ".xml")
+            {
+                SelectedSerializer = new XMLSerializer();
+                serializerFrom = new JsonSerializer();
+                anotherExtention = ".json";
+            }
+            else
+            {
+                SelectedSerializer = new JsonSerializer();
+                serializerFrom = new XMLSerializer();
+                anotherExtention = ".xml";
+            }
+
+            var allFiles = Directory.GetFiles(SelectedSerializer.FolderPath);
+            foreach (var file in allFiles)
+            {
+                if (Path.GetExtension(file) == extention)
+                    continue;
+                string fileName = Path.GetFileName(file).Replace(anotherExtention, "");
+                string filePath = file.Replace(anotherExtention, extention);
+                if (File.Exists(filePath))
+                    continue;
+                var database = serializerFrom.Deserialize<DataBase>(file);
+                SelectedSerializer.Serialize(database, fileName);
+            }
         }
     }
 }

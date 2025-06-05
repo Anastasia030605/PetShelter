@@ -320,7 +320,7 @@ namespace PetShelter
 
             }
         }
-        //
+        
         private void Send(IFilter filterable, Type type, int claustrophobic)
         {
             if (claustrophobic == -1)

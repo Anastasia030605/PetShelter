@@ -16,7 +16,7 @@ namespace Model.Core
         public Pet[] Pets { get; private set; }
 
         [JsonConstructor]
-        public Shelter(string name,  int capacity, bool hasOpenArea, Pet[] pets = null) // bool hasOpenArea = false ?
+        public Shelter(string name,  int capacity, bool hasOpenArea, Pet[] pets = null)
         {
             Name = name;
             Capacity = capacity;
