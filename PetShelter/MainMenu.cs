@@ -15,8 +15,9 @@ namespace PetShelter
 {
     public partial class MainMenu : Form
     {
+        private Serializer SelectedSerializer { get; set; }
         private DataBase DataBase { get; set; }
-        private Shelter SelectedShelter { get; set; }
+        private int SelectedShelterIndex { get; set; }
         private Type SelectedPetType { get; set; }
         private int SelectedClaustrophobic { get; set; }
         private int SelectedOpenSpace { get; set; }
@@ -61,6 +62,9 @@ namespace PetShelter
 
             SelectedClaustrophobic = -1;
             comboBoxClaustrophobiaFilter.SelectedIndex = 0;
+
+            comboBoxSelectExtention.DataSource = new String[] { ".json", ".xml" };
+            comboBoxSelectExtention.SelectedIndex = 0;
         }
 
         public void RemovePet(Pet pet)
@@ -70,7 +74,7 @@ namespace PetShelter
 
         private void comboBoxShelters_SelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectedShelter = comboBoxShelters.SelectedItem as Shelter;
+            SelectedShelterIndex = comboBoxShelters.SelectedIndex;
         }
 
         private void comboBoxPetType_SelectedIndexChanged(object sender, EventArgs e)
@@ -81,10 +85,11 @@ namespace PetShelter
         private void buttonShowPets_Click(object sender, EventArgs e)
         {
             Pets petswindow;
-            if (SelectedShelter == null)
+            if (SelectedShelterIndex == -1)
                 petswindow = new Pets(DataBase, SelectedPetType, SelectedClaustrophobic);
-            else petswindow = new Pets(SelectedShelter, SelectedPetType, SelectedClaustrophobic);
+            else petswindow = new Pets(DataBase.Shelters[SelectedShelterIndex], SelectedPetType, SelectedClaustrophobic);
             petswindow.ShowDialog();
+            
         }
 
         private void comboBoxOpenSpace_SelectedIndexChanged(object sender, EventArgs e)
@@ -107,8 +112,30 @@ namespace PetShelter
 
         private void comboBoxClaustrophobiaFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
-                var comboItem = comboBoxClaustrophobiaFilter.SelectedItem as ComboItem;
-                SelectedClaustrophobic = comboItem.Value;
+            var comboItem = comboBoxClaustrophobiaFilter.SelectedItem as ComboItem;
+            SelectedClaustrophobic = comboItem.Value;
+        }
+
+        private void comboBoxSelectExtention_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var extention = comboBoxSelectExtention.SelectedItem as String;
+            if (extention == ".xml") SelectedSerializer = new XMLSerializer();
+            else SelectedSerializer = new JsonSerializer();
+        }
+
+        private void buttonSerializer_Click(object sender, EventArgs e)
+        {
+            if(SelectedSerializer == null)
+            {
+                MessageBox.Show("Укажите расширение сохраняемого файла");
+                return;
+            }
+            string fileName = $"Подборка_от_{DateTime.Now}";
+            fileName = fileName.Replace(' ', '_');
+            fileName = fileName.Replace('.', '-');
+            fileName = fileName.Replace(':', '-');
+            var database = new DataBase(DataBase.Shelters, DataBase.Homeless);
+            SelectedSerializer.Serialize<DataBase>(database, fileName);
         }
     }
 }

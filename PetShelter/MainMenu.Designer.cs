@@ -37,6 +37,8 @@
             buttonShowPets = new Button();
             comboBoxClaustrophobiaFilter = new ComboBox();
             comboBoxOpenSpace = new ComboBox();
+            comboBoxSelectExtention = new ComboBox();
+            buttonSerializer = new Button();
             ((System.ComponentModel.ISupportInitialize)dataBaseBindingSource).BeginInit();
             SuspendLayout();
             // 
@@ -47,49 +49,44 @@
             // comboBoxShelters
             // 
             comboBoxShelters.FormattingEnabled = true;
-            comboBoxShelters.Location = new Point(186, 31);
-            comboBoxShelters.Margin = new Padding(3, 2, 3, 2);
+            comboBoxShelters.Location = new Point(213, 41);
             comboBoxShelters.Name = "comboBoxShelters";
-            comboBoxShelters.Size = new Size(133, 23);
+            comboBoxShelters.Size = new Size(151, 28);
             comboBoxShelters.TabIndex = 0;
             comboBoxShelters.Text = "имя приюта";
             comboBoxShelters.SelectedIndexChanged += comboBoxShelters_SelectedIndexChanged;
             // 
             // textBoxSelectShelter
             // 
-            textBoxSelectShelter.Location = new Point(10, 32);
-            textBoxSelectShelter.Margin = new Padding(3, 2, 3, 2);
+            textBoxSelectShelter.Location = new Point(11, 43);
             textBoxSelectShelter.Name = "textBoxSelectShelter";
-            textBoxSelectShelter.Size = new Size(162, 23);
+            textBoxSelectShelter.Size = new Size(185, 27);
             textBoxSelectShelter.TabIndex = 1;
             textBoxSelectShelter.Text = "Выберите приют";
             // 
             // textBoxSelectPetType
             // 
-            textBoxSelectPetType.Location = new Point(10, 89);
-            textBoxSelectPetType.Margin = new Padding(3, 2, 3, 2);
+            textBoxSelectPetType.Location = new Point(11, 119);
             textBoxSelectPetType.Name = "textBoxSelectPetType";
-            textBoxSelectPetType.Size = new Size(161, 23);
+            textBoxSelectPetType.Size = new Size(183, 27);
             textBoxSelectPetType.TabIndex = 2;
             textBoxSelectPetType.Text = "Выберите вид животного";
             // 
             // comboBoxPetType
             // 
             comboBoxPetType.FormattingEnabled = true;
-            comboBoxPetType.Location = new Point(186, 88);
-            comboBoxPetType.Margin = new Padding(3, 2, 3, 2);
+            comboBoxPetType.Location = new Point(213, 117);
             comboBoxPetType.Name = "comboBoxPetType";
-            comboBoxPetType.Size = new Size(133, 23);
+            comboBoxPetType.Size = new Size(151, 28);
             comboBoxPetType.TabIndex = 3;
             comboBoxPetType.Text = "вид животного";
             comboBoxPetType.SelectedIndexChanged += comboBoxPetType_SelectedIndexChanged;
             // 
             // buttonShowPets
             // 
-            buttonShowPets.Location = new Point(509, 207);
-            buttonShowPets.Margin = new Padding(3, 2, 3, 2);
+            buttonShowPets.Location = new Point(582, 276);
             buttonShowPets.Name = "buttonShowPets";
-            buttonShowPets.Size = new Size(124, 48);
+            buttonShowPets.Size = new Size(142, 64);
             buttonShowPets.TabIndex = 4;
             buttonShowPets.Text = "Показать питомцев";
             buttonShowPets.UseVisualStyleBackColor = true;
@@ -98,9 +95,10 @@
             // comboBoxClaustrophobiaFilter
             // 
             comboBoxClaustrophobiaFilter.FormattingEnabled = true;
-            comboBoxClaustrophobiaFilter.Location = new Point(325, 89);
+            comboBoxClaustrophobiaFilter.Location = new Point(371, 119);
+            comboBoxClaustrophobiaFilter.Margin = new Padding(3, 4, 3, 4);
             comboBoxClaustrophobiaFilter.Name = "comboBoxClaustrophobiaFilter";
-            comboBoxClaustrophobiaFilter.Size = new Size(171, 23);
+            comboBoxClaustrophobiaFilter.Size = new Size(195, 28);
             comboBoxClaustrophobiaFilter.TabIndex = 5;
             comboBoxClaustrophobiaFilter.Text = "наличие клаустрофобии";
             comboBoxClaustrophobiaFilter.SelectedIndexChanged += comboBoxClaustrophobiaFilter_SelectedIndexChanged;
@@ -108,18 +106,43 @@
             // comboBoxOpenSpace
             // 
             comboBoxOpenSpace.FormattingEnabled = true;
-            comboBoxOpenSpace.Location = new Point(325, 31);
+            comboBoxOpenSpace.Location = new Point(371, 41);
+            comboBoxOpenSpace.Margin = new Padding(3, 4, 3, 4);
             comboBoxOpenSpace.Name = "comboBoxOpenSpace";
-            comboBoxOpenSpace.Size = new Size(171, 23);
+            comboBoxOpenSpace.Size = new Size(195, 28);
             comboBoxOpenSpace.TabIndex = 6;
             comboBoxOpenSpace.Text = "наличие открытого места";
             comboBoxOpenSpace.SelectedIndexChanged += comboBoxOpenSpace_SelectedIndexChanged;
             // 
+            // comboBoxSelectExtention
+            // 
+            comboBoxSelectExtention.BackColor = Color.MediumPurple;
+            comboBoxSelectExtention.FormattingEnabled = true;
+            comboBoxSelectExtention.Location = new Point(636, 80);
+            comboBoxSelectExtention.Name = "comboBoxSelectExtention";
+            comboBoxSelectExtention.Size = new Size(196, 28);
+            comboBoxSelectExtention.TabIndex = 7;
+            comboBoxSelectExtention.Text = "выберите расширение";
+            comboBoxSelectExtention.SelectedIndexChanged += comboBoxSelectExtention_SelectedIndexChanged;
+            // 
+            // buttonSerializer
+            // 
+            buttonSerializer.BackColor = SystemColors.Info;
+            buttonSerializer.Location = new Point(195, 276);
+            buttonSerializer.Name = "buttonSerializer";
+            buttonSerializer.Size = new Size(106, 64);
+            buttonSerializer.TabIndex = 8;
+            buttonSerializer.Text = "Сохранить изменения";
+            buttonSerializer.UseVisualStyleBackColor = false;
+            buttonSerializer.Click += buttonSerializer_Click;
+            // 
             // MainMenu
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(760, 378);
+            ClientSize = new Size(869, 504);
+            Controls.Add(buttonSerializer);
+            Controls.Add(comboBoxSelectExtention);
             Controls.Add(comboBoxOpenSpace);
             Controls.Add(comboBoxClaustrophobiaFilter);
             Controls.Add(buttonShowPets);
@@ -127,7 +150,6 @@
             Controls.Add(textBoxSelectPetType);
             Controls.Add(textBoxSelectShelter);
             Controls.Add(comboBoxShelters);
-            Margin = new Padding(3, 2, 3, 2);
             Name = "MainMenu";
             Text = "MainMenu";
             ((System.ComponentModel.ISupportInitialize)dataBaseBindingSource).EndInit();
@@ -144,5 +166,7 @@
         private Button buttonShowPets;
         private ComboBox comboBoxClaustrophobiaFilter;
         private ComboBox comboBoxOpenSpace;
+        private ComboBox comboBoxSelectExtention;
+        private Button buttonSerializer;
     }
 }
