@@ -61,16 +61,6 @@ namespace Model.Core
             newHomeless[newHomeless.Length] = pet;
             Homeless = newHomeless;
         }
-        public void Add(Pet[] homeless)
-        {
-            if (Homeless == null || homeless == null) return;
-            int numToAdd = homeless.Length;
-
-            var newHomeless = new Pet[Homeless.Length + numToAdd];
-            Array.Copy(Homeless, newHomeless, Homeless.Length);
-            Array.Copy(homeless, 0, newHomeless, Homeless.Length, numToAdd);
-            Homeless = newHomeless;
-        }
         public void MoveTo(Pet pet, Shelter shelter)
         {
             if (pet == null || shelter == null || pet.InShelter) return;
