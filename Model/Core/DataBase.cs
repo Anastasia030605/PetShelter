@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Model.Core
 {
-    public class DataBase : ICountable, IFilter
+    public class DataBase : ICountable, IFilter, IChangeable
     {
         public Shelter[] Shelters { get; private set; }
         public Pet[] Homeless { get; private set; }
@@ -107,22 +107,15 @@ namespace Model.Core
                 }
             }
         }
-        public void RemoveFromDB(Pet pet)
+        public void RemoveFromShelter(Pet pet)
         {
-            if (pet == null) return;
-            if(pet.InShelter)
-            {
-                for(int i = 0; i < Shelters.Length; ++i)
-                {
-                    Shelters[i].Remove(pet);
-                }
-            } else
-            {
-                if(Homeless.Contains(pet))
-                {
-                    Homeless = Homeless.Where(x => x != pet).ToArray();
-                }
-            }
+            if (pet == null || !pet.InShelter) return;
+            foreach (var shelter in Shelters)
+                shelter.Remove(pet);
+            var homeless = Homeless;
+            Array.Resize(ref homeless, Homeless.Length + 1);
+            homeless[homeless.Length - 1] = pet;
+            Homeless = homeless;
         }
         public Pet[] Filter(Type type)
         {
@@ -162,6 +155,25 @@ namespace Model.Core
                 if (pet.HasClaustrophobia == hasPhobia) count++;
             }
             return count;
+        }
+
+        public void Remove(Pet pet)
+        {
+            if (pet == null) return;
+            if (pet.InShelter)
+            {
+                for (int i = 0; i < Shelters.Length; ++i)
+                {
+                    Shelters[i].Remove(pet);
+                }
+            }
+            else
+            {
+                if (Homeless.Contains(pet))
+                {
+                    Homeless = Homeless.Where(x => x != pet).ToArray();
+                }
+            }
         }
     }
 }

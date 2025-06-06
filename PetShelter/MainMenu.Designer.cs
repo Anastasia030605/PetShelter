@@ -117,7 +117,8 @@
             // 
             // comboBoxSelectExtention
             // 
-            comboBoxSelectExtention.BackColor = Color.MediumPurple;
+            comboBoxSelectExtention.BackColor = Color.DarkSlateBlue;
+            comboBoxSelectExtention.ForeColor = SystemColors.Info;
             comboBoxSelectExtention.FormattingEnabled = true;
             comboBoxSelectExtention.Location = new Point(307, 185);
             comboBoxSelectExtention.Name = "comboBoxSelectExtention";
@@ -139,12 +140,13 @@
             // 
             // buttonConvert
             // 
-            buttonConvert.BackColor = Color.SlateBlue;
-            buttonConvert.Location = new Point(105, 184);
+            buttonConvert.BackColor = Color.DarkSlateBlue;
+            buttonConvert.ForeColor = SystemColors.Info;
+            buttonConvert.Location = new Point(80, 184);
             buttonConvert.Name = "buttonConvert";
-            buttonConvert.Size = new Size(196, 29);
+            buttonConvert.Size = new Size(221, 29);
             buttonConvert.TabIndex = 9;
-            buttonConvert.Text = "Convert All Files To";
+            buttonConvert.Text = "Push me  to convert all Files to";
             buttonConvert.UseVisualStyleBackColor = false;
             buttonConvert.Click += buttonConvert_Click;
             // 

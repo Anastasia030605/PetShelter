@@ -79,6 +79,7 @@ namespace PetShelter
 
             //
             buttonAddPet.Visible = isVisible;
+            DeletePet.Visible = isVisible;
         }
 
         private void comboBoxSelectType_SelectedIndexChanged(object sender, EventArgs e)

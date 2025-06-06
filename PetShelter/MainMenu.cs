@@ -73,7 +73,7 @@ namespace PetShelter
         }
         public void RemovePet(Pet pet)
         {
-            DataBase.RemoveFromDB(pet);
+            DataBase.RemoveFromShelter(pet);
         }
 
         private void comboBoxShelters_SelectedIndexChanged(object sender, EventArgs e)
@@ -94,7 +94,7 @@ namespace PetShelter
                 petswindow = new Pets(DataBase, SelectedPetType, SelectedClaustrophobic);
             else petswindow = new Pets(DataBase.Shelters[SelectedShelterIndex], SelectedPetType, SelectedClaustrophobic);
             petswindow.ShowDialog();
-
+            comboBoxShelters.SelectedIndex = -1;
         }
 
         private void comboBoxOpenSpace_SelectedIndexChanged(object sender, EventArgs e)
