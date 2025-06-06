@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Model.Core
 {
-    public class DataBase : ICountable, IFilter, IChangeable
+    public class DataBase : ICountable, IFilter
     {
         public Shelter[] Shelters { get; private set; }
         public Pet[] Homeless { get; private set; }

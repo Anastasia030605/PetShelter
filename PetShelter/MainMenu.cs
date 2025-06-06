@@ -95,6 +95,7 @@ namespace PetShelter
             else petswindow = new Pets(DataBase.Shelters[SelectedShelterIndex], SelectedPetType, SelectedClaustrophobic);
             petswindow.ShowDialog();
             comboBoxShelters.SelectedIndex = -1;
+            comboBoxPetType.SelectedIndex = -1;
         }
 
         private void comboBoxOpenSpace_SelectedIndexChanged(object sender, EventArgs e)
