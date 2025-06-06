@@ -46,11 +46,18 @@ namespace PetShelter
 
             Send(filterable, type ?? typeof(Pet), claustrophobic);
 
-            dataGridViewPets.DataSource = SelectedPets;
-
+            if (type == typeof(Cat))
+                dataGridViewPets.DataSource = SelectedPets.OfType<Cat>().ToArray();
+            else if (type == typeof(Dog))
+                dataGridViewPets.DataSource = SelectedPets.OfType<Dog>().ToArray();
+            else if (type == typeof(Rabbit))
+                dataGridViewPets.DataSource = SelectedPets.OfType<Rabbit>().ToArray();
+            else
+                dataGridViewPets.DataSource = SelectedPets;
+            
             dataGridViewPets.AutoGenerateColumns = true;
             dataGridViewPets.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
+            
             bool isVisible = filterable is Shelter shelter;
             //тип
             comboBoxSelectType.Visible = isVisible;
